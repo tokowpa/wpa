@@ -12,10 +12,10 @@
       body { 
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
         padding: 12px; 
-        background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); 
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         min-height: 100vh;
         margin: 0; 
-        color: #0f172a; /* Teks utama dibuat gelap agar kontras tinggi */
+        color: #0f172a;
         -webkit-font-smoothing: antialiased;
       }
       
@@ -83,11 +83,10 @@
       }
       .login-card button:active { transform: scale(0.98); }
       #appContainer { display: none; } 
-      /* ------------------- */
 
       .keranjang, .riwayat, .manajemen { margin-top: 10px; }
       
-      /* --- TABEL TEMA KACA (KONTRASTING & CLEAR TEXT) --- */
+      /* --- TABEL TEMA KACA --- */
       table { 
         width: 100%; 
         border-collapse: separate; 
@@ -118,13 +117,13 @@
       td { 
         color: #0f172a; 
         font-size: 15px;
-        font-weight: 600; /* Tebal agar nama produk & harga tampak sangat jelas */
+        font-weight: 600;
       }
       tr:last-child td { border-bottom: none; }
       tr:nth-child(even) { background: rgba(255, 255, 255, 0.3); }
       tr:hover { background: rgba(255, 255, 255, 0.5); }
       
-      /* --- TOMBOL-TOMBOL IPHONE STYLE --- */
+      /* --- TOMBOL IPHONE STYLE --- */
       button { 
         padding: 8px 14px; 
         cursor: pointer; 
@@ -176,10 +175,6 @@
       }
       .uang-rekomendasi button:hover { background: #ffffff; }
       .produk-varian { font-size: 13px; margin-left: 15px; color: #475569; font-weight: 500; }
-      
-      .info-kembalian { font-size: 24px; font-weight: 800; margin-top: 8px; transition: color 0.3s ease; }
-      .info-kembalian.lunas { color: #166534; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); }
-      .info-kembalian.kurang { color: #991b1b; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); }
       
       .qty-container { display: flex; justify-content: center; align-items: center; }
       .qty-btn { width: 32px; height: 32px; padding: 0; font-size: 16px; font-weight: bold; line-height: 32px; text-align: center; border-radius: 8px; }
@@ -241,6 +236,8 @@
         letter-spacing: -1px;
       }
       .info-kembalian { font-size: 20px; font-weight: 800; margin-top: 0; padding-top: 8px; }
+      .info-kembalian.lunas { color: #166534; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); }
+      .info-kembalian.kurang { color: #991b1b; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); }
       
       input[type="number"].qty-input { 
         width: 45px; 
@@ -270,7 +267,7 @@
       @keyframes notifIn { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
       @keyframes notifOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-8px) scale(0.98); } }
       
-      /* --- MODAL / POPUP (iOS SHEET) --- */
+      /* --- MODAL / POPUP --- */
       .modal, .popup-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.3); backdrop-filter: blur(8px); }
       .modal-content, .popup-content { 
         background-color: rgba(255, 255, 255, 0.85); 
@@ -301,11 +298,10 @@
       }
       .form-group { margin-bottom: 12px; }
       .form-group label { display: block; margin-bottom: 5px; font-weight: 700; color: #1e293b; }
-      .varian-item { border: 1px solid rgba(0, 0, 0, 0.1); padding: 12px; margin-top: 10px; border-radius: 12px; background: rgba(255, 255, 255, 0.5); }
       .hidden { display: none; }
       .pagination-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 15px; }
       .pagination-container button:disabled { background: rgba(0,0,0,0.1); color: #a1a1aa; cursor: not-allowed; box-shadow: none; }
-</style>
+    </style>
   </head>
   <body>
     <!-- HALAMAN LOGIN -->
@@ -370,11 +366,8 @@
           </div>
           <div class="summary-item">
             <div class="info-kembalian">
-              <span id="labelKembalian" style="font-size: 12px;"
-                >Kembalian:</span
-              ><br />
-              <span style="font-size: 18px;"></span
-              ><span id="kembalian" style="font-size: 30px;">0</span>
+              <span id="labelKembalian" style="font-size: 12px;">Kembalian:</span><br />
+              <span style="font-size: 18px;"></span><span id="kembalian" style="font-size: 30px;">0</span>
             </div>
           </div>
           <div class="summary-item-tombol">
@@ -390,6 +383,8 @@
             </button>
           </div>
         </div>
+
+        <div id="uangRekomendasi" class="uang-rekomendasi" style="display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap;"></div>
 
         <table id="tabelKeranjang">
           <thead>
@@ -407,18 +402,9 @@
       </div>
       <hr />
 
+      <!-- MENU NAVIGASI (Tombol Produk & Backup/Restore sudah dihapus) -->
       <div class="manajemen">
-        <button id="btnManajemen" onclick="openManajemenProduk()">
-          PRODUK
-        </button>
         <button id="btnRiwayat" onclick="toggleRiwayat()">RIWAYAT</button>
-        <button
-          id="btnBackupRestore"
-          class="button-sekunder"
-          onclick="openModalBackup()"
-        >
-          Backup/Restore
-        </button>
         <button
           id="btnSinkron"
           onclick="sinkronDariFirebase()"
@@ -465,9 +451,7 @@
             >
               Prev
             </button>
-            <span id="infoHalamanRiwayat" style="font-weight:bold;"
-              >Halaman 1 dari 1</span
-            >
+            <span id="infoHalamanRiwayat" style="font-weight:bold;">Halaman 1 dari 1</span>
             <button
               id="btnNextPage"
               class="button-sekunder"
@@ -479,115 +463,7 @@
         </div>
       </div>
 
-      <div id="modalProduk" class="modal">
-        <div class="modal-content">
-          <span class="modal-close" onclick="closeManajemenProduk()"
-            >&times;</span
-          >
-          <div id="listProdukContainer">
-            <h2>Daftar Produk</h2>
-            <input
-              type="text"
-              id="cariProdukManajemen"
-              placeholder="Cari nama produk atau barcode..."
-            />
-            <button onclick="showFormTambahProduk()">
-              + Tambah Produk Baru
-            </button>
-            <table id="tabelManajemenProduk">
-              <thead>
-                <tr>
-                  <th>Nama Produk</th>
-                  <th>Varian & Harga</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-          <div id="formProdukContainer" class="hidden">
-            <h2 id="formProdukJudul">Tambah Produk Baru</h2>
-            <input type="hidden" id="editIndex" />
-            <div class="form-group">
-              <label for="namaProduk">Nama Produk</label
-              ><input
-                type="text"
-                id="namaProduk"
-                placeholder="Cth: Sarimi Gelas"
-              />
-            </div>
-            <div class="form-group">
-              <label for="hargaBeliProduk">Harga Beli / Modal</label>
-              <input
-                type="text"
-                inputmode="numeric"
-                id="hargaBeliProduk"
-                placeholder="Cth: 180.000"
-                oninput="formatInputRibuan(this)"
-              />
-            </div>
-            <div class="form-group">
-              <label for="barcodeProduk">Barcode Utama (Karton/Bal)</label
-              ><input type="text" id="barcodeProduk" placeholder="Opsional" />
-            </div>
-            <div class="form-group">
-              <label for="isiProduk">Info Isi</label
-              ><input
-                type="text"
-                id="isiProduk"
-                placeholder="Cth: 12 rtg x 10 pcs"
-              />
-            </div>
-            <h3>Harga Grosir/Bulk</h3>
-            <div id="bulkPriceContainer" class="form-group"></div>
-            <h3>Varian Produk (Eceran)</h3>
-            <div id="varianContainer"></div>
-            <button
-              type="button"
-              class="button-sekunder"
-              onclick="tambahInputVarian()"
-            >
-              + Tambah Varian
-            </button>
-            <hr />
-            <button type="button" onclick="simpanProduk()">
-              Simpan Produk
-            </button>
-            <button
-              type="button"
-              class="button-sekunder"
-              onclick="showListProduk()"
-            >
-              Batal
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div id="modalBackup" class="modal">
-        <div class="modal-content">
-          <span class="modal-close" onclick="closeModalBackup()">&times;</span>
-          <h2>Backup & Restore Data Produk</h2>
-          <div
-            class="backup-section"
-            style="margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 20px;"
-          >
-            <h3>Backup Data</h3>
-            <p>Simpan semua data produk Anda ke dalam sebuah file JSON.</p>
-            <button onclick="backupProduk()">Download File Backup</button>
-          </div>
-          <div class="restore-section">
-            <h3>Restore Data</h3>
-            <p>Pilih file backup (.json) untuk mengembalikan data produk.</p>
-            <input type="file" id="fileRestore" accept=".json" />
-            <button class="button-hapus" onclick="restoreProduk()">
-              Restore dari File
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal Pengaturan -->
+      <!-- MODAL PENGATURAN (Tombol Simpan ke Firebase & Hapus Semua Riwayat sudah dihapus) -->
       <div id="modalPengaturan" class="modal">
         <div class="modal-content">
           <span class="modal-close" onclick="tutupPengaturan()">&times;</span>
@@ -619,21 +495,6 @@
           <hr style="margin: 20px 0;" />
 
           <button
-            onclick="simpanSemuaProdukKeFirebase()"
-            style="width: 100%; padding: 12px; margin-bottom: 10px; font-size: 16px;"
-          >
-            ↑ Simpan Data Produk ke Firebase
-          </button>
-
-          <button
-            class="button-hapus"
-            onclick="hapusRiwayatLunas()"
-            style="width: 100%; padding: 12px; margin-bottom: 10px; font-size: 16px;"
-          >
-            ⚠ Hapus Semua Riwayat (Kecuali Hutang)
-          </button>
-
-          <button
             class="button-sekunder"
             onclick="prosesLogout()"
             style="width: 100%; padding: 12px; font-size: 16px; background:#607d8b;"
@@ -651,21 +512,19 @@
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
       import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
-      // Import Auth
       import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyDsz5Y-7PsulS71Z_TiPWbBW3qiMkYFI1g",
-        authDomain: "wpashopgrosir-45a9d.firebaseapp.com",
-        projectId: "wpashopgrosir-45a9d",
-        storageBucket: "wpashopgrosir-45a9d.firebasestorage.app",
-        messagingSenderId: "978499317395",
-        appId: "1:978499317395:web:91fccc4e5193022f29a766"
+    authDomain: "wpashopgrosir-45a9d.firebaseapp.com",
+    projectId: "wpashopgrosir-45a9d",
+    storageBucket: "wpashopgrosir-45a9d.firebasestorage.app",
+    messagingSenderId: "978499317395",
+    appId: "1:978499317395:web:91fccc4e5193022f29a766"
       };
 
       const app = initializeApp(firebaseConfig);
 
-      // Firestore Config
       window.fbDB = getFirestore(app);
       window.fbCol = collection;
       window.fbGetDocs = getDocs;
@@ -675,7 +534,6 @@
       window.fbDeleteDoc = deleteDoc;
       window.fbDoc = doc;
 
-      // Auth Config
       const auth = getAuth(app);
       window.fbAuth = auth;
       window.fbSignIn = signInWithEmailAndPassword;
@@ -696,7 +554,6 @@
 
       let produkDB = [];
       let searchTimeout = null;
-      let searchManajemenTimeout = null;
       let keranjang = [];
       let riwayat = [];
       let idRiwayatEdit = null;
@@ -740,7 +597,6 @@
           try {
               await window.fbSignIn(window.fbAuth, email, pass);
               showNotif("Login Berhasil!", "success");
-              // onAuthStateChanged akan men-trigger tampilan secara otomatis
           } catch (error) {
               showNotif("Gagal Login: Periksa Email/Password!", "error");
           } finally {
@@ -761,7 +617,6 @@
       }
 
       document.addEventListener('DOMContentLoaded', () => {
-          // Beri jeda kecil agar Script Firebase (Module) selesai termuat
           setTimeout(() => {
               if (window.fbAuth && window.fbOnAuthStateChanged) {
                   window.fbOnAuthStateChanged(window.fbAuth, (user) => {
@@ -769,49 +624,37 @@
                       const appDiv = document.getElementById('appContainer');
 
                       if (user) {
-                          // Jika User Sudah Login
                           loginDiv.style.display = 'none';
                           appDiv.style.display = 'block';
 
-                          // Muat Data Hanya Sekali setelah berhasil masuk
                           if (!isAppLoaded) {
                               muatDataAwal();
                               isAppLoaded = true;
                           }
                       } else {
-                          // Jika Belum Login
                           loginDiv.style.display = 'flex';
                           appDiv.style.display = 'none';
-                          isAppLoaded = false; // Reset state supaya data dimuat ulang saat login lagi
+                          isAppLoaded = false;
                       }
                   });
               }
           }, 500);
 
           document.addEventListener('keydown', handleGlobalScan);
-
-          // Load setting kertas printer
-          const size = localStorage.getItem('printerSize') || '58';
-          document.getElementById('ukuranKertas').value = size;
+          muatPengaturan();
       });
 
       async function muatDataAwal() {
           try {
-              // Ambil riwayat dari Dexie
               riwayat = await db.riwayat.orderBy('id').reverse().toArray();
               renderRiwayat();
 
-              // Ambil produk dari Dexie lokal (bukan Firebase)
               let produkLokal = await db.produk.toArray();
               if (produkLokal.length > 0) {
                   produkDB = produkLokal;
               } else {
-                  produkDB = produkDB_default; // Gunakan default jika kosong
+                  produkDB = produkDB_default;
               }
-              renderTabelManajemen();
-
-              // MATIKAN auto-sync saat aplikasi dibuka
-              // await sinkronDariFirebase(false);
           } catch (error) { console.error(error); }
       }
 
@@ -825,240 +668,29 @@
       bukaPencarianBtn.addEventListener('click', bukaPopupCari);
       window.addEventListener('click', (event) => { if (event.target == popupCari) tutupPopupCari(); });
 
-      // === MANAJEMEN PRODUK ===
-      const modalProduk = document.getElementById("modalProduk"), listContainer = document.getElementById("listProdukContainer"), formContainer = document.getElementById("formProdukContainer"), cariProdukManajemenInput = document.getElementById("cariProdukManajemen");
-
-      function renderBulkPriceInputs(produk = {}) {
-          const container = document.getElementById('bulkPriceContainer');
-          container.innerHTML = '';
-          bulkKeys.forEach(bk => {
-              const nilai = produk[bk.key] ? formatRupiah(produk[bk.key]) : '';
-              const div = document.createElement('div');
-              div.className = 'form-group';
-              div.innerHTML = `<label for="harga-${bk.key}">${bk.label}</label><input type="text" inputmode="numeric" id="harga-${bk.key}" data-key="${bk.key}" value="${nilai}" placeholder="Kosongkan jika tidak ada" oninput="formatInputRibuan(this)">`;
-              container.appendChild(div);
-          });
-      }
-      function openManajemenProduk() { cariProdukManajemenInput.value = ''; renderTabelManajemen(); showListProduk(); modalProduk.style.display = "block"; }
-      function closeManajemenProduk() { modalProduk.style.display = "none"; }
-      function showListProduk() { listContainer.classList.remove("hidden"); formContainer.classList.add("hidden"); }
-      function showFormTambahProduk() {
-          listContainer.classList.add("hidden"); formContainer.classList.remove("hidden");
-          document.getElementById('formProdukJudul').textContent = "Tambah Produk Baru";
-          document.getElementById('editIndex').value = "-1";
-          document.getElementById('namaProduk').value = ''; document.getElementById('barcodeProduk').value = '';
-          document.getElementById('isiProduk').value = ''; document.getElementById('hargaBeliProduk').value = '';
-          renderBulkPriceInputs(); document.getElementById('varianContainer').innerHTML = ''; tambahInputVarian();
-      }
-
-      function renderTabelManajemen(filter = '') {
-          const tbody = document.querySelector("#tabelManajemenProduk tbody"); tbody.innerHTML = "";
-          if (filter.trim() === '' && produkDB.length === 0) return;
-
-          const filterLower = filter.toLowerCase();
-          const produkTampil = produkDB.filter(p => {
-              if(filter === '') return true;
-              // PERBAIKAN: Pastikan variabel diubah menjadi String agar includes/indexOf tidak error
-              const namaCocok = String(p.nama || '').toLowerCase().includes(filterLower);
-              const barcodeCocok = p.barcode && String(p.barcode).includes(filter);
-              const varianCocok = p.variasi && p.variasi.some(v => v.barcode && String(v.barcode).includes(filter));
-
-              return namaCocok || barcodeCocok || varianCocok;
-          });
-
-          produkTampil.forEach(produk => {
-              let varianHtml = '';
-              if (produk.hargaBeli > 0) varianHtml += `<div style="font-size: 12px; color: #d32f2f; margin-bottom: 5px; padding-left: 16px;"><strong>Modal: Rp ${formatRupiah(produk.hargaBeli)}</strong></div>`;
-              varianHtml += '<ul style="margin: 0; padding-left: 16px; font-size: 13px;">';
-              bulkKeys.forEach(bk => { if (produk[bk.key]) varianHtml += `<li>${bk.label} <span class="badge ${bk.badge}">${bk.label}</span>: <strong>Rp ${formatRupiah(produk[bk.key])}</strong></li>`; });
-              if (produk.variasi && produk.variasi.length > 0) produk.variasi.forEach(v => { varianHtml += `<li>${v.nama} <span class="badge badge-ecer">Ecer</span>: <strong>Rp ${formatRupiah(v.harga)}</strong></li>`; });
-              if (varianHtml === '<ul style="margin: 0; padding-left: 16px; font-size: 13px;">') varianHtml = '<small style="color: #777;"><i>Belum ada harga</i></small>'; else varianHtml += '</ul>';
-              const tr = document.createElement("tr");
-              tr.innerHTML = `<td>${produk.nama}</td><td>${varianHtml}</td> <td><button onclick="showFormEditProduk('${produk.id}')">Edit</button><button class="button-hapus" onclick="hapusProduk('${produk.id}')">Hapus</button></td>`;
-              tbody.appendChild(tr);
-          });
-      }
-      cariProdukManajemenInput.addEventListener('input', (e) => {
-    const query = e.target.value;
-    const tbody = document.querySelector("#tabelManajemenProduk tbody");
-
-    if (query.trim() === "") {
-        if (searchManajemenTimeout) clearTimeout(searchManajemenTimeout);
-        renderTabelManajemen("");
-        return;
-    }
-
-    // Tampilkan indikator loading instan di tabel manajemen
-    tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; padding: 15px; color: #666; font-style: italic;">⏳ Mencari data produk...</td></tr>`;
-
-    // Batalkan timeout sebelumnya
-    if (searchManajemenTimeout) clearTimeout(searchManajemenTimeout);
-
-    // Tunggu 400ms setelah pengguna selesai mengetik
-    searchManajemenTimeout = setTimeout(() => {
-        renderTabelManajemen(query);
-    }, 400);
-});
-
-      function tambahInputVarian(varian = { nama: '', barcode: '', harga: '' }) {
-          const container = document.getElementById("varianContainer"); const div = document.createElement("div"); div.className = "varian-item";
-          const hargaTampil = varian.harga ? formatRupiah(varian.harga) : '';
-          div.innerHTML = `<input type="text" class="varian-nama" value="${varian.nama}" placeholder="Nama"><input type="text" class="varian-barcode" value="${varian.barcode}" placeholder="Barcode"><input type="text" inputmode="numeric" class="varian-harga" value="${hargaTampil}" placeholder="Harga" oninput="formatInputRibuan(this)"><button type="button" class="button-hapus" style="float:right;" onclick="this.parentElement.remove()">Hapus Varian</button><div style="clear:both;"></div>`;
-          container.appendChild(div);
-      }
-
-      function showFormEditProduk(id) {
-          const produk = produkDB.find(p => p.id === id); if (!produk) return;
-          listContainer.classList.add("hidden"); formContainer.classList.remove("hidden");
-          document.getElementById('formProdukJudul').textContent = "Edit Produk";
-          document.getElementById('editIndex').value = id;
-          document.getElementById('namaProduk').value = produk.nama || ''; document.getElementById('barcodeProduk').value = produk.barcode || '';
-          document.getElementById('isiProduk').value = produk.isi || ''; document.getElementById('hargaBeliProduk').value = produk.hargaBeli || '';
-          renderBulkPriceInputs(produk);
-          const varianContainer = document.getElementById('varianContainer'); varianContainer.innerHTML = '';
-          if (produk.variasi && produk.variasi.length > 0) produk.variasi.forEach(v => tambahInputVarian(v)); else tambahInputVarian();
-      }
-
-      async function simpanProduk() {
-          const id = document.getElementById('editIndex').value;
-          const nama = document.getElementById('namaProduk').value.trim();
-          if (!nama) return showNotif("Nama produk kosong!", "error");
-
-          const produkBaru = { nama: nama, hargaBeli: parseInt(document.getElementById('hargaBeliProduk').value.replace(/\D/g, '')) || 0, barcode: document.getElementById('barcodeProduk').value.trim(), isi: document.getElementById('isiProduk').value, variasi: [] };
-          const bulkInputs = document.querySelectorAll('#bulkPriceContainer input[data-key]');
-          bulkInputs.forEach(input => { const key = input.dataset.key; const value = parseInt(input.value.replace(/\D/g, '')); if (key && value > 0) produkBaru[key] = value; });
-          const varianItems = document.querySelectorAll('.varian-item');
-          varianItems.forEach(item => { const namaVarian = item.querySelector('.varian-nama').value.trim(); const hargaVarian = parseInt(item.querySelector('.varian-harga').value.replace(/\D/g, '')); if (namaVarian && hargaVarian > 0) produkBaru.variasi.push({ nama: namaVarian, barcode: item.querySelector('.varian-barcode').value.trim(), harga: hargaVarian }); });
-
-          try {
-              if (id === "-1") {
-                  produkBaru.id = "prod_" + Date.now(); // Buat ID unik untuk lokal
-                  await db.produk.add(produkBaru);
-                  produkDB.push(produkBaru);
-                  showNotif("Produk berhasil ditambahkan ke memori lokal!", "success");
-              } else {
-                  produkBaru.id = id;
-                  await db.produk.put(produkBaru);
-                  const indexLokal = produkDB.findIndex(p => String(p.id) === String(id));
-                  if(indexLokal > -1) { produkDB[indexLokal] = produkBaru; }
-                  showNotif("Produk berhasil diedit di memori lokal!", "success");
-              }
-              renderTabelManajemen(); showListProduk();
-          } catch (e) { showNotif("Gagal simpan lokal: " + e.message, "error"); }
-      }
-
-      async function hapusProduk(id) {
-          if (confirm(`Hapus produk ini dari penyimpanan lokal?`)) {
-              try {
-                  await db.produk.delete(id);
-                  produkDB = produkDB.filter(p => String(p.id) !== String(id));
-                  renderTabelManajemen();
-                  showNotif("Produk dihapus secara lokal", "info");
-              } catch(e) {
-                  showNotif("Gagal Hapus: " + e.message, "error");
-              }
-          }
-      }
-
-      // === BACKUP & RESTORE ===
-      function openModalBackup() { document.getElementById("modalBackup").style.display = "block"; }
-      function closeModalBackup() { document.getElementById("modalBackup").style.display = "none"; }
-      function backupProduk() {
-        if (produkDB.length === 0) { showNotif("Tidak ada data produk.", "error"); return; }
-        const dataStr = JSON.stringify(produkDB, null, 2);
-        const dataBlob = new Blob([dataStr], { type: "application/json" });
-        const url = URL.createObjectURL(dataBlob);
-        const a = document.createElement("a"); a.href = url;
-        const tgl = new Date(); const tglStr = `${tgl.getFullYear()}-${String(tgl.getMonth() + 1).padStart(2, '0')}-${String(tgl.getDate()).padStart(2, '0')}`;
-        a.download = `produk_backup_${tglStr}.json`; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
-      }
-      async function restoreProduk() {
-        const fileInput = document.getElementById('fileRestore'); const file = fileInput.files[0];
-        if (!file) { showNotif("Silakan pilih file backup.", "error"); return; }
-        if (confirm("Restore data? Ini HANYA mengubah tampilan lokal Anda, untuk mencegah kerusakan Firestore secara massal.")) {
-          const reader = new FileReader();
-          reader.onload = async function(e) {
-            try {
-              const data = JSON.parse(e.target.result);
-              if (!Array.isArray(data) || (data.length > 0 && typeof data[0].nama === 'undefined')) throw new Error("Format invalid.");
-              produkDB = data; renderTabelManajemen(); showNotif("Data produk berhasil diload secara lokal!", "success"); closeModalBackup(); fileInput.value = '';
-            } catch (err) { showNotif("Gagal me-restore data: " + err.message, "error", 3500); }
-          };
-          reader.onerror = () => showNotif("Gagal membaca file.", "error"); reader.readAsText(file);
-        }
-      }
-
-      // === PENGATURAN (SETTINGS) & SINKRON ===
-      function bukaPengaturan() { document.getElementById('modalPengaturan').style.display = "block"; }
-      function tutupPengaturan() { document.getElementById('modalPengaturan').style.display = "none"; }
+      // === PENGATURAN & SINKRON ===
+      function bukaPengaturan() { const m = document.getElementById('modalPengaturan'); if(m) m.style.display = "block"; }
+      function tutupPengaturan() { const m = document.getElementById('modalPengaturan'); if(m) m.style.display = "none"; }
       
-      // Simpan kode akses ke penyimpanan lokal
-function simpanKodeAkses() {
-    const kode = document.getElementById('inputKodeAkses').value;
-    localStorage.setItem('kodeAksesNota', kode);
-}
+      function simpanKodeAkses() {
+          const kode = document.getElementById('inputKodeAkses').value;
+          localStorage.setItem('kodeAksesNota', kode);
+      }
 
-// Muat kode akses saat pengaturan dibuka / aplikasi dimuat
-function muatPengaturan() {
-    // 1. Muat ukuran kertas printer
-    const savedSize = localStorage.getItem('printerSize') || '58';
-    const selectSize = document.getElementById('ukuranKertas');
-    if (selectSize) selectSize.value = savedSize;
+      function muatPengaturan() {
+          const savedSize = localStorage.getItem('printerSize') || '58';
+          const selectSize = document.getElementById('ukuranKertas');
+          if (selectSize) selectSize.value = savedSize;
 
-    // 2. Muat kode akses
-    const savedKode = localStorage.getItem('kodeAksesNota') || '';
-    const inputKode = document.getElementById('inputKodeAkses');
-    if (inputKode) inputKode.value = savedKode;
-}
-
-// Panggil fungsi muatPengaturan() ini di dalam fungsi saat modal pengaturan dibuka atau saat window.onload
+          const savedKode = localStorage.getItem('kodeAksesNota') || '';
+          const inputKode = document.getElementById('inputKodeAkses');
+          if (inputKode) inputKode.value = savedKode;
+      }
 
       function simpanPengaturanKertas() {
           const val = document.getElementById('ukuranKertas').value;
           localStorage.setItem('printerSize', val);
           showNotif("Ukuran Kertas disimpan: " + val + "mm", "success", 1500);
-      }
-
-      async function simpanSemuaProdukKeFirebase() {
-          if (!navigator.onLine) return showNotif("Offline! Butuh koneksi internet.", "error");
-          if (!window.fbDB) return showNotif("Sistem Firebase belum siap", "error");
-          if (!confirm("Peringatan: Ini akan MENIMPA semua data produk di Firebase dengan data yang ada di aplikasi Anda sekarang. Lanjutkan?")) return;
-
-          try {
-              showNotif("Menyimpan semua data ke Firebase...", "info", 3000);
-              for (let p of produkDB) {
-                  if (p.id && p.id !== "default1") {
-                      // PERBAIKAN: Bungkus ID dengan String()
-                      const docRef = window.fbDoc(window.fbDB, "produk", String(p.id));
-                      await window.fbSetDoc(docRef, p, { merge: true });
-                  } else {
-                      const pNew = {...p}; delete pNew.id;
-                      const docRef = await window.fbAddDoc(window.fbCol(window.fbDB, "produk"), pNew);
-                      p.id = docRef.id;
-                  }
-              }
-              showNotif("Berhasil disinkronisasi ke Firebase!", "success");
-              tutupPengaturan();
-          } catch (e) {
-              showNotif("Gagal: " + e.message, "error");
-          }
-      }
-
-      async function hapusRiwayatLunas() {
-          if (!confirm("Hapus SEMUA riwayat yang sudah lunas? Data yang berstatus 'Hutang' akan tetap aman dan tidak terhapus.")) return;
-          try {
-              const lunas = riwayat.filter(r => !r.statusHutang);
-              for (let r of lunas) {
-                  await db.riwayat.delete(r.id);
-              }
-              riwayat = await db.riwayat.orderBy('id').reverse().toArray();
-              currentPageRiwayat = 1;
-              renderRiwayat();
-              showNotif(`${lunas.length} transaksi lunas berhasil dihapus.`, "success");
-              tutupPengaturan();
-          } catch(e) {
-              showNotif("Gagal menghapus riwayat.", "error");
-          }
       }
 
       async function sinkronDariFirebase(munculkanNotif = true) {
@@ -1076,18 +708,12 @@ function muatPengaturan() {
                   });
 
                   if (baru.length > 0) {
-                      produkDB = baru; // Update tampilan di layar
-
-                      // --- KODE BARU: Simpan data dari Firebase secara permanen ke Dexie lokal ---
-                      await db.produk.clear();       // Hapus data lokal lama agar tidak dobel
-                      await db.produk.bulkPut(baru); // Masukkan semua data baru dari Firebase ke Dexie
-                      // --------------------------------------------------------------------------
-
-                      renderTabelManajemen();
+                      produkDB = baru;
+                      await db.produk.clear();
+                      await db.produk.bulkPut(baru);
                       if(munculkanNotif) showNotif(`Berhasil menarik ${baru.length} produk dari Firebase`, "success");
                   } else {
                       produkDB = produkDB_default;
-                      renderTabelManajemen();
                       if(munculkanNotif) showNotif("Data produk di server kosong.", "info");
                   }
               }
@@ -1097,21 +723,32 @@ function muatPengaturan() {
       }
 
       // === FUNGSI UTAMA KASIR ===
-      function toggleRiwayat() { const box = document.getElementById("riwayatBox"), btn = document.getElementById("btnRiwayat"); if (box.style.display === "none") { box.style.display = "block"; btn.textContent = "Tutup Riwayat"; } else { box.style.display = "none"; btn.textContent = "Riwayat Transaksi"; } }
+      function toggleRiwayat() { 
+          const box = document.getElementById("riwayatBox"), btn = document.getElementById("btnRiwayat"); 
+          if (!box || !btn) return;
+          if (box.style.display === "none") { box.style.display = "block"; btn.textContent = "Tutup Riwayat"; } 
+          else { box.style.display = "none"; btn.textContent = "Riwayat Transaksi"; } 
+      }
+      
       const bulkKeys = [ {key:"karton", label:"Karton", badge:"badge-karton"}, {key:"slop", label:"Slop", badge:"badge-slop"}, {key:"pak", label:"Pak", badge:"badge-pak"}, {key:"sak", label:"Sak", badge:"badge-sak"}, {key:"bal", label:"Bal", badge:"badge-bal"}, {key:"pcs", label:"Pcs", badge:"badge-pcs"} ];
+      
       function formatRupiah(n) { if (!n && n !== 0) return "0"; return Number(n).toLocaleString('id-ID'); }
       function formatUangPembeli(el) { let angka = el.value.replace(/\D/g, ""); if (angka === "") { el.value = ""; hitungKembalian(); return; } el.value = Number(angka).toLocaleString("id-ID"); hitungKembalian(); }
-      function formatInputRibuan(el) { let pos = el.selectionStart; let pan = el.value.length; let ang = el.value.replace(/\D/g, ""); if (ang === "") { el.value = ""; return; } el.value = Number(ang).toLocaleString("id-ID"); pos = pos + (el.value.length - pan); el.setSelectionRange(pos, pos); }
+      
       function renderUangRekomendasi() {
           const total = keranjang.reduce((sum, i) => sum + i.harga * i.qty, 0); const rekomendasi = []; const nominalDasar = [50000, 100000, 200000, 500000]; nominalDasar.forEach(n => { if (n >= total) rekomendasi.push(n); });
           const div = document.getElementById("uangRekomendasi"); if (!div) return; div.innerHTML = "";
           rekomendasi.forEach(n => { const btn = document.createElement("button"); btn.textContent = "Rp " + formatRupiah(n); btn.onclick = () => { document.getElementById("uangPembeli").value = formatRupiah(n); hitungKembalian(); }; div.appendChild(btn); });
       }
+      
       const notifContainer = document.getElementById("notifContainer");
-      function showNotif(message, type="info", duration=2500) { const div = document.createElement("div"); div.className = "notif " + type; const icon = document.createElement("div"); icon.className = "icon"; icon.textContent = type === "success" ? "✓" : (type === "error" ? "✕" : "i"); const txt = document.createElement("div"); txt.innerHTML = message; div.appendChild(icon); div.appendChild(txt); notifContainer.appendChild(div); setTimeout(() => { div.classList.add("fade-out"); div.addEventListener("animationend", () => { if (div.parentNode) div.parentNode.removeChild(div); }); }, duration); }
+      function showNotif(message, type="info", duration=2500) { 
+          if (!notifContainer) return;
+          const div = document.createElement("div"); div.className = "notif " + type; const icon = document.createElement("div"); icon.className = "icon"; icon.textContent = type === "success" ? "✓" : (type === "error" ? "✕" : "i"); const txt = document.createElement("div"); txt.innerHTML = message; div.appendChild(icon); div.appendChild(txt); notifContainer.appendChild(div); setTimeout(() => { div.classList.add("fade-out"); div.addEventListener("animationend", () => { if (div.parentNode) div.parentNode.removeChild(div); }); }, duration); 
+      }
 
       function renderHasilCari(filter="") {
-        const tbody = document.querySelector("#tabelHasil tbody"); tbody.innerHTML = "";
+        const tbody = document.querySelector("#tabelHasil tbody"); if (!tbody) return; tbody.innerHTML = "";
         if (filter.trim() === "") return; const filterLower = filter.toLowerCase();
         produkDB.forEach(p => {
           const namaProdukLower = p.nama.toLowerCase(), varianCocok = p.variasi.some(v => v.nama.toLowerCase().includes(filterLower));
@@ -1131,66 +768,71 @@ function muatPengaturan() {
         });
       }
 
-      function renderKeranjang() { const tbody = document.querySelector("#tabelKeranjang tbody"); tbody.innerHTML = ""; let total = 0; keranjang.forEach((item, index) => { const itemTotal = Number(item.harga) * Number(item.qty || 0); total += itemTotal; let badgeClass = "badge-ecer", badgeText = "Ecer"; const found = bulkKeys.find(b => b.key === item.jenis); if(found){ badgeClass = found.badge; badgeText = found.label; } const tr = document.createElement("tr"); tr.innerHTML = `<td>${item.nama}</td><td>${item.varian} <span class="badge ${badgeClass}">${badgeText}</span></td><td>Rp ${formatRupiah(item.harga)}</td><td><div class="qty-container"><button class="qty-btn button-sekunder" onclick="ubahQtyStep(${index}, -1)">-</button><input type="number" class="qty-input" min="1" value="${item.qty}" onchange="ubahQty(${index}, this.value)"><button class="qty-btn" onclick="ubahQtyStep(${index}, 1)">+</button></div></td><td>Rp ${formatRupiah(itemTotal)}</td><td><button class="button-hapus" onclick="hapusItem(${index})">Hapus</button></td>`; tbody.appendChild(tr); }); document.getElementById("totalBelanja").textContent = formatRupiah(total); renderUangRekomendasi(); hitungKembalian(); }
+      function renderKeranjang() { 
+          const tbody = document.querySelector("#tabelKeranjang tbody"); if (!tbody) return; tbody.innerHTML = ""; let total = 0; 
+          keranjang.forEach((item, index) => { 
+              const itemTotal = Number(item.harga) * Number(item.qty || 0); total += itemTotal; let badgeClass = "badge-ecer", badgeText = "Ecer"; 
+              const found = bulkKeys.find(b => b.key === item.jenis); if(found){ badgeClass = found.badge; badgeText = found.label; } 
+              const tr = document.createElement("tr"); 
+              tr.innerHTML = `<td>${item.nama}</td><td>${item.varian} <span class="badge ${badgeClass}">${badgeText}</span></td><td>Rp ${formatRupiah(item.harga)}</td><td><div class="qty-container"><button class="qty-btn button-sekunder" onclick="ubahQtyStep(${index}, -1)">-</button><input type="number" class="qty-input" min="1" value="${item.qty}" onchange="ubahQty(${index}, this.value)"><button class="qty-btn" onclick="ubahQtyStep(${index}, 1)">+</button></div></td><td>Rp ${formatRupiah(itemTotal)}</td><td><button class="button-hapus" onclick="hapusItem(${index})">Hapus</button></td>`; 
+              tbody.appendChild(tr); 
+          }); 
+          document.getElementById("totalBelanja").textContent = formatRupiah(total); 
+          renderUangRekomendasi(); 
+          hitungKembalian(); 
+      }
+      
       function tambahKeranjangDanTutup(nama, varian, jenis, harga) { tambahKeranjang(nama, varian, jenis, harga); tutupPopupCari(); }
       function tambahKeranjang(nama, varian, jenis, harga) { harga = Number(harga); varian = varian.replace(/\(isi.*?\)/gi, "").trim(); const index = keranjang.findIndex(i => i.nama === nama && i.varian === varian && i.jenis === jenis); if (index > -1) { let item = keranjang.splice(index, 1)[0]; item.qty++; keranjang.unshift(item); } else { keranjang.unshift({ nama, varian, jenis, harga, qty: 1 }); } renderKeranjang(); showNotif(`${nama} ${varian ? "- " + varian : ""} ditambahkan`, "success", 2000); }
       function hapusItem(i) { const removed = keranjang.splice(i, 1)[0]; renderKeranjang(); if (removed) showNotif(`${removed.nama} ${removed.varian} dihapus`, "info", 1800); }
       function ubahQtyStep(index, amount) { const item = keranjang[index]; if (!item) return; let qtyBaru = item.qty + amount; ubahQty(index, qtyBaru); }
       function ubahQty(i, val) { const qty = parseInt(val); keranjang[i].qty = (isNaN(qty) || qty < 1) ? 1 : qty; renderKeranjang(); showNotif("Jumlah diperbarui", "info", 1200); }
+      
       function hitungKembalian() {
           const total = keranjang.reduce((sum, i) => sum + i.harga * i.qty, 0); const uang = parseInt(document.getElementById("uangPembeli").value.replace(/\D/g, "")) || 0; const kembali = uang - total; const labelEl = document.getElementById("labelKembalian"); const kembaliEl = document.getElementById("kembalian"); const boxEl = document.querySelector(".info-kembalian");
+          if (!labelEl || !kembaliEl || !boxEl) return;
           if (kembali >= 0) { labelEl.textContent = "Kembalian:"; kembaliEl.textContent = formatRupiah(kembali); boxEl.classList.add("lunas"); boxEl.classList.remove("kurang"); } else { const kekurangan = -kembali; labelEl.textContent = "Kekurangan:"; kembaliEl.textContent = formatRupiah(kekurangan); boxEl.classList.add("kurang"); boxEl.classList.remove("lunas"); }
       }
 
+      // === RENDER RIWAYAT (Hanya tombol Lihat) ===
       function renderRiwayat() {
-          const filter = document.getElementById('cariRiwayat').value.toLowerCase(); const tbody = document.querySelector("#tabelRiwayat tbody"); tbody.innerHTML = "";
+          const cariRiwayatEl = document.getElementById('cariRiwayat');
+          const filter = cariRiwayatEl ? cariRiwayatEl.value.toLowerCase() : ''; 
+          const tbody = document.querySelector("#tabelRiwayat tbody"); 
+          if (!tbody) return; 
+          tbody.innerHTML = "";
+          
           const riwayatTampil = riwayat.filter(r => { const nama = (r.namaPembeli || '').toLowerCase(); const tanggal = r.tanggal.toLowerCase(); const total = r.total.toLowerCase(); const status = r.statusHutang ? 'hutang' : ''; return nama.includes(filter) || tanggal.includes(filter) || total.includes(filter) || status.includes(filter); });
           const totalPages = Math.ceil(riwayatTampil.length / itemsPerPageRiwayat) || 1; if (currentPageRiwayat > totalPages) currentPageRiwayat = totalPages;
           const startIdx = (currentPageRiwayat - 1) * itemsPerPageRiwayat; const pagedData = riwayatTampil.slice(startIdx, startIdx + itemsPerPageRiwayat);
+          
           pagedData.forEach(r => {
               const originalIndex = riwayat.findIndex(item => item === r); const tr = document.createElement("tr");
               const badgeHutang = r.statusHutang ? '<span class="badge badge-hutang">Hutang</span>' : ''; const labelKolomTerakhir = r.statusHutang ? 'Hutang' : 'Kembali';
-              tr.innerHTML = `<td>${r.tanggal}</td><td>${r.namaPembeli || '-'} ${badgeHutang}</td><td>Rp ${r.total}</td><td>Rp ${r.uang}</td><td>Rp ${r.kembali} <small>(${labelKolomTerakhir})</small></td><td><button onclick="lihatDetail(${originalIndex})">Lihat</button><button onclick="editTransaksi(${originalIndex})">Edit</button><button class="button-hapus" onclick="hapusRiwayat(${originalIndex})">Hapus</button></td>`;
+              tr.innerHTML = `<td>${r.tanggal}</td><td>${r.namaPembeli || '-'} ${badgeHutang}</td><td>Rp ${r.total}</td><td>Rp ${r.uang}</td><td>Rp ${r.kembali} <small>(${labelKolomTerakhir})</small></td><td><button onclick="lihatDetail(${originalIndex})">Lihat</button></td>`;
               tbody.appendChild(tr);
           });
-          document.getElementById("infoHalamanRiwayat").textContent = `Halaman ${currentPageRiwayat} dari ${totalPages}`; document.getElementById("btnPrevPage").disabled = (currentPageRiwayat === 1); document.getElementById("btnNextPage").disabled = (currentPageRiwayat === totalPages);
+          
+          const infoHalaman = document.getElementById("infoHalamanRiwayat");
+          const btnPrev = document.getElementById("btnPrevPage");
+          const btnNext = document.getElementById("btnNextPage");
+          if (infoHalaman) infoHalaman.textContent = `Halaman ${currentPageRiwayat} dari ${totalPages}`; 
+          if (btnPrev) btnPrev.disabled = (currentPageRiwayat === 1); 
+          if (btnNext) btnNext.disabled = (currentPageRiwayat === totalPages);
       }
-      document.getElementById('cariRiwayat').addEventListener('input', () => { currentPageRiwayat = 1; renderRiwayat(); });
+      
+      const cariRiwayatInput = document.getElementById('cariRiwayat');
+      if (cariRiwayatInput) {
+          cariRiwayatInput.addEventListener('input', () => { currentPageRiwayat = 1; renderRiwayat(); });
+      }
       function ubahHalamanRiwayat(dir) { currentPageRiwayat += dir; renderRiwayat(); }
 
-      function lihatDetail(i) { const r = riwayat[i]; let detail = `=== Transaksi ===\n${r.tanggal}\n`; if(r.namaPembeli) detail += `Pelanggan: ${r.namaPembeli}\n`; detail += `\n`; r.detail.forEach(d => { detail += `${d.nama} - ${d.varian}\n${d.qty} x Rp${formatRupiah(d.harga)} = Rp${formatRupiah(d.harga*d.qty)}\n`; }); detail += `\nTotal: Rp ${r.total}\nUang: Rp ${r.uang}\nKembali: Rp ${r.kembali}\n`; alert(detail); }
-      function editTransaksi(i) { const r = riwayat[i]; idRiwayatEdit = r.id; keranjang = JSON.parse(JSON.stringify(r.detail)); renderKeranjang(); document.getElementById("uangPembeli").value = r.uang; document.getElementById("namaPembeli").value = r.namaPembeli || ''; hitungKembalian(); showNotif("Mode Edit: Silakan update uang pembeli.", "info", 2000); }
-      async function hapusRiwayat(index) {
-          const r = riwayat[index]; if (!r) return;
-          const konfirmasi = confirm(`Hapus riwayat?\n\nTanggal: ${r.tanggal}\nTotal: Rp ${r.total}`);
-          if (konfirmasi) {
-              await db.riwayat.delete(r.id); riwayat = await db.riwayat.orderBy('id').reverse().toArray();
-              if(riwayat.length > 0 && currentPageRiwayat > Math.ceil(riwayat.length / itemsPerPageRiwayat)) currentPageRiwayat--;
-              renderRiwayat(); showNotif("Riwayat transaksi dihapus.", "info");
-          }
+      function lihatDetail(i) { 
+          const r = riwayat[i]; if (!r) return;
+          let detail = `=== Transaksi ===\n${r.tanggal}\n`; if(r.namaPembeli) detail += `Pelanggan: ${r.namaPembeli}\n`; detail += `\n`; r.detail.forEach(d => { detail += `${d.nama} - ${d.varian}\n${d.qty} x Rp${formatRupiah(d.harga)} = Rp${formatRupiah(d.harga*d.qty)}\n`; }); detail += `\nTotal: Rp ${r.total}\nUang: Rp ${r.uang}\nKembali: Rp ${r.kembali}\n`; alert(detail); 
       }
-      inputPopupCari.addEventListener("input", (e) => {
-    const query = e.target.value;
-    const tbody = document.querySelector("#tabelHasil tbody");
 
-    if (query.trim() === "") {
-        tbody.innerHTML = "";
-        if (searchTimeout) clearTimeout(searchTimeout);
-        return;
-    }
-
-    // Tampilkan indikator loading instan saat pengguna mengetik
-    tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; padding: 15px; color: #666; font-style: italic;">⏳ Sedang mencari produk...</td></tr>`;
-
-    // Batalkan timeout sebelumnya agar pencarian tidak dieksekusi di setiap ketukan
-    if (searchTimeout) clearTimeout(searchTimeout);
-
-    // Jalankan pencarian setelah pengguna berhenti mengetik selama 400 milidetik
-    searchTimeout = setTimeout(() => {
-        renderHasilCari(query);
-    }, 400);
-});
-
+      // === BARCODE & SCANNING ===
       async function cariDanTambahProdukByBarcode(barcode) {
           if (!barcode) return false; const barcodeBersih = barcode.trim(); let pGrosir = produkDB.find(p => p.barcode === barcodeBersih);
           if (pGrosir) {
@@ -1202,6 +844,7 @@ function muatPengaturan() {
           if (pEcer) { const v = pEcer.variasi.find(v => v.barcode === barcodeBersih); if (v) { tambahKeranjang(pEcer.nama, v.nama, 'ecer', v.harga); return true; } }
           return false;
       }
+
       async function handleGlobalScan(e) {
           const targetTag = e.target.tagName.toLowerCase(); if (targetTag === 'input' || targetTag === 'textarea') return;
           if (globalScanTimer) clearTimeout(globalScanTimer); globalScanTimer = setTimeout(() => { globalScanBuffer = ""; }, 250);
@@ -1213,6 +856,7 @@ function muatPengaturan() {
               }
           } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) { globalScanBuffer += e.key; }
       }
+
       inputPopupCari.addEventListener("keydown", async (e) => {
         if (e.key === "Enter") {
           e.preventDefault(); const val = e.target.value.trim(); const produkDitemukan = await cariDanTambahProdukByBarcode(val);
@@ -1220,6 +864,27 @@ function muatPengaturan() {
         }
       });
 
+      if (inputPopupCari) {
+          inputPopupCari.addEventListener("input", (e) => {
+              const query = e.target.value;
+              const tbody = document.querySelector("#tabelHasil tbody");
+              if (!tbody) return;
+
+              if (query.trim() === "") {
+                  tbody.innerHTML = "";
+                  if (searchTimeout) clearTimeout(searchTimeout);
+                  return;
+              }
+
+              tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; padding: 15px; color: #666; font-style: italic;">⏳ Sedang mencari produk...</td></tr>`;
+              if (searchTimeout) clearTimeout(searchTimeout);
+              searchTimeout = setTimeout(() => {
+                  renderHasilCari(query);
+              }, 400);
+          });
+      }
+
+      // === TRANSAKSI & CETAK RAWBT ===
       document.getElementById('btnSelesaiCetak').addEventListener('click', selesaikanDanCetak);
 
       async function simpanTransaksi() {
@@ -1233,6 +898,7 @@ function muatPengaturan() {
               riwayat = await db.riwayat.orderBy('id').reverse().toArray(); renderRiwayat(); return transaksi;
           } catch (e) { showNotif("Gagal simpan: " + e, "error"); return null; }
       }
+
       function resetKeranjang() { keranjang = []; idRiwayatEdit = null; renderKeranjang(); document.getElementById("namaPembeli").value = ''; document.getElementById("uangPembeli").value = ''; hitungKembalian(); }
 
       async function selesaikanDanCetak() {
@@ -1250,18 +916,13 @@ function muatPengaturan() {
           }
       }
 
-      // === CETAK NOTA VIA RAWBT ===
       function cetakRawBT(transaksi) {
           const dataNota = buatDataESCPOS(transaksi);
-
-          // Convert Uint8Array ke Base64
           let binary = '';
           for (let i = 0; i < dataNota.length; i++) {
               binary += String.fromCharCode(dataNota[i]);
           }
           const base64 = btoa(binary);
-
-          // Intent URL Protocol untuk RawBT
           const intentUrl = `intent:base64,${base64}#Intent;scheme=rawbt;package=ru.a402d.rawbtprinter;end;`;
           window.location.href = intentUrl;
       }
@@ -1286,7 +947,6 @@ function muatPengaturan() {
               const total = formatRupiah(item.harga * item.qty);
 
               let line1 = teksNama.padEnd(lebarKertas) + '\n';
-
               const leftStr = "  " + hargaQty;
               const rightStr = total;
               let pad = lebarKertas - leftStr.length - rightStr.length;
@@ -1312,37 +972,28 @@ function muatPengaturan() {
 
           add([ESC, 0x61, 1]); add("Terima kasih telah berbelanja!" + NL + NL + NL);
           
-          // === AMBIL DAN CETAK KODE AKSES TEPAT DI ATAS QR CODE ===
-        const kodeAkses = localStorage.getItem('kodeAksesNota') || '';
-        if (kodeAkses.trim() !== "") {
-            add([ESC, 0x45, 1]); // Tebalkan teks kode akses
-            add(`KODE AKSES: ${kodeAkses}` + NL);
-            add([ESC, 0x45, 0]); // Matikan tebal
-            add(NL);
-        }
+          const kodeAkses = localStorage.getItem('kodeAksesNota') || '';
+          if (kodeAkses.trim() !== "") {
+              add([ESC, 0x45, 1]);
+              add(`KODE AKSES: ${kodeAkses}` + NL);
+              add([ESC, 0x45, 0]);
+              add(NL);
+          }
           
           const qrData = "https://wpashop.com";
-        const qrDataLen = qrData.length + 3;
-        const pL = qrDataLen % 256;
-        const pH = Math.floor(qrDataLen / 256);
+          const qrDataLen = qrData.length + 3;
+          const pL = qrDataLen % 256;
+          const pH = Math.floor(qrDataLen / 256);
 
-        // Ratakan tengah untuk QR
-        add([ESC, 0x61, 1]); 
-        
-        // Perintah ESC/POS untuk QR Code (Mendukung hampir semua printer thermal via RawBT)
-        // Set model QR
-        add([GS, (0x28), 0x6b, 0x04, 0x00, 0x31, 0x41, 0x30, 0x00]);
-        // Set ukuran modul (pixel size = 4)
-        add([GS, 0x28, 0x6b, 0x03, 0x00, 0x31, 0x43, 0x06]);
-        // Set level koreksi error (Level M)
-        add([GS, 0x28, 0x6b, 0x03, 0x00, 0x31, 0x45, 0x30]);
-        // Simpan data ke simbol QR
-        add([GS, 0x28, 0x6b, pL, pH, 0x31, 0x50, 0x30]);
-        add(qrData);
-        // Cetak QR Code yang sudah disimpan
-        add([GS, 0x28, 0x6b, 0x03, 0x00, 0x31, 0x51, 0x30]);
-        
-        add(NL + "Kunjungi wpashop.com" + NL + NL);
+          add([ESC, 0x61, 1]); 
+          add([GS, (0x28), 0x6b, 0x04, 0x00, 0x31, 0x41, 0x30, 0x00]);
+          add([GS, 0x28, 0x6b, 0x03, 0x00, 0x31, 0x43, 0x06]);
+          add([GS, 0x28, 0x6b, 0x03, 0x00, 0x31, 0x45, 0x30]);
+          add([GS, 0x28, 0x6b, pL, pH, 0x31, 0x50, 0x30]);
+          add(qrData);
+          add([GS, 0x28, 0x6b, 0x03, 0x00, 0x31, 0x51, 0x30]);
+          
+          add(NL + "Kunjungi wpashop.com" + NL + NL);
           add([GS, 0x56, 66, 0]);
 
           return new Uint8Array(commands);
