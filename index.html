@@ -12,7 +12,7 @@
       body { 
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
         padding: 12px; 
-        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        background: #e4ebf5; /* Background dasar Neomorphism */
         min-height: 100vh;
         margin: 0; 
         color: #0f172a;
@@ -21,13 +21,12 @@
       
       h1, h2 { 
         text-align: center; 
-        color: #ffffff; 
+        color: #1e293b; 
         font-weight: 700;
         letter-spacing: -0.5px;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); 
       }
 
-      /* --- EFEK KACA KARTU LOGIN (iOS GLASS) --- */
+      /* --- EFEK NEOMORPHISM KARTU LOGIN --- */
       #loginContainer {
         display: flex; 
         flex-direction: column; 
@@ -37,78 +36,69 @@
         background: transparent;
       }
       .login-card {
-        background: rgba(255, 255, 255, 0.4); 
-        backdrop-filter: blur(25px) saturate(180%);
-        -webkit-backdrop-filter: blur(25px) saturate(180%);
+        background: #e4ebf5; 
         padding: 30px; 
         border-radius: 24px; 
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        box-shadow: 9px 9px 16px #cbced1, -9px -9px 16px #ffffff;
         width: 90%; 
         max-width: 340px; 
         text-align: center;
       }
-      .login-card h2 { color: #ffffff; margin-bottom: 20px; }
+      .login-card h2 { color: #1e293b; margin-bottom: 20px; }
       .login-card input {
         width: 100%; 
         padding: 14px; 
         margin: 8px 0; 
-        border: 1px solid rgba(255, 255, 255, 0.5); 
+        border: none;
         border-radius: 12px; 
         box-sizing: border-box; 
         font-size: 15px;
-        background: rgba(255, 255, 255, 0.9);
-        color: #000;
+        background: #e4ebf5;
+        color: #0f172a;
         outline: none;
-        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        box-shadow: inset 4px 4px 8px #cbced1, inset -4px -4px 8px #ffffff;
       }
       .login-card input:focus {
-        background: #ffffff;
-        border-color: #007aff;
-        box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3);
+        box-shadow: inset 6px 6px 10px #cbced1, inset -6px -6px 10px #ffffff;
       }
       .login-card button {
         width: 100%; 
         padding: 14px; 
         font-size: 16px; 
         margin-top: 15px; 
-        background: #007aff; 
-        color: white; 
-        font-weight: 600;
+        background: #e4ebf5; 
+        color: #007aff; 
+        font-weight: 700;
         border: none; 
         border-radius: 12px; 
         cursor: pointer; 
-        box-shadow: 0 4px 14px rgba(0, 122, 255, 0.4);
-        transition: transform 0.1s ease;
+        box-shadow: 6px 6px 12px #cbced1, -6px -6px 12px #ffffff;
+        transition: all 0.1s ease;
       }
-      .login-card button:active { transform: scale(0.98); }
+      .login-card button:active { box-shadow: inset 4px 4px 8px #cbced1, inset -4px -4px 8px #ffffff; }
       #appContainer { display: none; } 
 
       .keranjang, .riwayat, .manajemen { margin-top: 10px; }
       
-      /* --- TABEL TEMA KACA --- */
+      /* --- TABEL NEOMORPHISM --- */
       table { 
         width: 100%; 
         border-collapse: separate; 
         border-spacing: 0;
         margin-top: 10px; 
-        background: rgba(255, 255, 255, 0.7); 
-        backdrop-filter: blur(20px) saturate(180%);
-        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        background: #e4ebf5; 
         border-radius: 16px; 
         overflow: hidden; 
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        box-shadow: 8px 8px 16px #cbced1, -8px -8px 16px #ffffff;
       }
       th, td { 
-        border-bottom: 1px solid rgba(0, 0, 0, 0.08); 
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05); 
         padding: 12px 14px; 
         text-align: left; 
       }
       th { 
-        background: rgba(15, 23, 42, 0.85); 
+        background: #1e293b; 
         color: #ffffff; 
-        backdrop-filter: blur(10px);
         font-weight: 700;
         font-size: 14px;
         text-transform: uppercase;
@@ -120,31 +110,28 @@
         font-weight: 600;
       }
       tr:last-child td { border-bottom: none; }
-      tr:nth-child(even) { background: rgba(255, 255, 255, 0.3); }
-      tr:hover { background: rgba(255, 255, 255, 0.5); }
+      tr:nth-child(even) { background: rgba(255, 255, 255, 0.2); }
+      tr:hover { background: rgba(255, 255, 255, 0.4); }
       
-      /* --- TOMBOL IPHONE STYLE --- */
+      /* --- TOMBOL NEOMORPHISM STYLE --- */
       button { 
         padding: 8px 14px; 
         cursor: pointer; 
         margin: 2px; 
         border: none; 
         border-radius: 10px; 
-        background: #34c759; 
-        color: #fff; 
+        background: #e4ebf5; 
+        color: #166534; 
         font-weight: 600;
         font-size: 14px;
-        box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
+        box-shadow: 5px 5px 10px #cbced1, -5px -5px 10px #ffffff;
         transition: all 0.2s ease;
       }
-      button:hover { background: #2fb350; }
-      button:active { transform: scale(0.96); }
+      button:hover { opacity: 0.9; }
+      button:active { box-shadow: inset 3px 3px 6px #cbced1, inset -3px -3px 6px #ffffff; transform: scale(0.98); }
       
-      .button-hapus { background: #ff3b30; box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3); }
-      .button-hapus:hover { background: #e0352b; }
-      
-      .button-sekunder { background: #8e8e93; box-shadow: 0 2px 8px rgba(142, 142, 147, 0.3); }
-      .button-sekunder:hover { background: #7c7c80; }
+      .button-hapus { color: #ff3b30; }
+      .button-sekunder { color: #64748b; }
       
       /* --- BADGES --- */
       .badge { 
@@ -155,7 +142,7 @@
         font-weight: 700;
         margin-left: 4px; 
         display: inline-block;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
       }
       .badge-ecer { background: #34c759; } 
       .badge-karton { background: #007aff; } 
@@ -166,25 +153,46 @@
       .badge-pcs { background: #1c1c1e; } 
       .badge-hutang { background: #ff3b30; }
       
+      /* --- TOMBOL REKOMENDASI UANG & MENU SAMPING --- */
       .uang-rekomendasi button { 
-        background: rgba(255, 255, 255, 0.85); 
+        background: #e4ebf5; 
         color: #0f172a; 
-        border: 1px solid rgba(255, 255, 255, 0.6); 
-        backdrop-filter: blur(10px);
-        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        box-shadow: 4px 4px 8px #cbced1, -4px -4px 8px #ffffff;
       }
-      .uang-rekomendasi button:hover { background: #ffffff; }
+      .uang-rekomendasi button:active { box-shadow: inset 2px 2px 4px #cbced1, inset -2px -2px 4px #ffffff; }
+
+      /* Styling Kontainer Menu Samping & Rekomendasi */
+      .panel-bawah-container {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+      }
+      .menu-samping-kiri {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .menu-samping-kiri button {
+        padding: 10px 16px;
+        font-weight: 700;
+        border-radius: 12px;
+        background: #e4ebf5;
+        box-shadow: 5px 5px 10px #cbced1, -5px -5px 10px #ffffff;
+      }
+      .menu-samping-kiri button:active {
+        box-shadow: inset 3px 3px 6px #cbced1, inset -3px -3px 6px #ffffff;
+      }
+
       .produk-varian { font-size: 13px; margin-left: 15px; color: #475569; font-weight: 500; }
       
       .qty-container { display: flex; justify-content: center; align-items: center; }
-      .qty-btn { width: 32px; height: 32px; padding: 0; font-size: 16px; font-weight: bold; line-height: 32px; text-align: center; border-radius: 8px; }
+      .qty-btn { width: 32px; height: 32px; padding: 0; font-size: 16px; font-weight: bold; line-height: 32px; text-align: center; border-radius: 8px; box-shadow: 3px 3px 6px #cbced1, -3px -3px 6px #ffffff; }
       
-      /* --- KOTAK RINGKASAN (GLASS KASIR MAIN PANEL) --- */
+      /* --- KOTAK RINGKASAN NEOMORPHISM --- */
       .summary-box { 
-        background: rgba(255, 255, 255, 0.65); 
-        backdrop-filter: blur(25px) saturate(180%);
-        -webkit-backdrop-filter: blur(25px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.7); 
+        background: #e4ebf5; 
         border-radius: 20px; 
         padding: 16px; 
         margin-bottom: 15px; 
@@ -194,16 +202,17 @@
         justify-content: space-between; 
         align-items: flex-end; 
         gap: 12px; 
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        box-shadow: 10px 10px 20px #cbced1, -10px -10px 20px #ffffff;
       }
       .summary-item { flex: 1; min-width: 0; display: flex; flex-direction: column; }
       .summary-item-tombol { flex: 1.5; display: flex; flex-direction: row; gap: 8px; align-self: flex-end; }
-      .summary-item-tombol button { flex: 1; height: 60px; margin: 0; font-size: 18px; font-weight: 700; white-space: nowrap; border-radius: 14px; }
+      .summary-item-tombol button { flex: 1; height: 60px; margin: 0; font-size: 18px; font-weight: 700; white-space: nowrap; border-radius: 14px; box-shadow: 6px 6px 12px #cbced1, -6px -6px 12px #ffffff; }
+      .summary-item-tombol button:active { box-shadow: inset 4px 4px 8px #cbced1, inset -4px -4px 8px #ffffff; }
       
       .summary-label { 
         font-size: 13px; 
         font-weight: 700; 
-        color: #1e293b; 
+        color: #64748b; 
         margin-bottom: 6px; 
         text-transform: uppercase;
         letter-spacing: 0.5px;
@@ -219,10 +228,14 @@
         font-size: 15px; 
         font-weight: 600;
         border-radius: 10px; 
-        border: 1px solid rgba(0, 0, 0, 0.15); 
-        background: rgba(255, 255, 255, 0.9); 
-        color: #000;
+        border: none; 
+        background: #e4ebf5; 
+        color: #0f172a;
         outline: none;
+        box-shadow: inset 4px 4px 8px #cbced1, inset -4px -4px 8px #ffffff;
+      }
+      .summary-item input:focus {
+        box-shadow: inset 6px 6px 10px #cbced1, inset -6px -6px 10px #ffffff;
       }
       
       .total { 
@@ -236,8 +249,8 @@
         letter-spacing: -1px;
       }
       .info-kembalian { font-size: 20px; font-weight: 800; margin-top: 0; padding-top: 8px; }
-      .info-kembalian.lunas { color: #166534; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); }
-      .info-kembalian.kurang { color: #991b1b; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8); }
+      .info-kembalian.lunas { color: #166534; }
+      .info-kembalian.kurang { color: #991b1b; }
       
       input[type="number"].qty-input { 
         width: 45px; 
@@ -245,12 +258,13 @@
         text-align: center; 
         margin: 0 5px; 
         border-radius: 8px; 
-        border: 1px solid rgba(0, 0, 0, 0.2); 
-        background: #ffffff; 
+        border: none; 
+        background: #e4ebf5; 
         box-sizing: border-box; 
         height: 32px; 
         font-weight: bold;
         color: #000;
+        box-shadow: inset 3px 3px 6px #cbced1, inset -3px -3px 6px #ffffff;
         -moz-appearance: textfield; 
       }
       input[type="number"].qty-input::-webkit-outer-spin-button, 
@@ -258,49 +272,47 @@
       
       /* --- NOTIFIKASI --- */
       .notif-container { position: fixed; top: 16px; right: 16px; z-index: 10001; display: flex; flex-direction: column; gap: 10px; pointer-events: none; max-width: calc(100% - 32px); }
-      .notif { pointer-events: auto; min-width: 220px; max-width: 420px; padding: 14px 18px; border-radius: 14px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-8px); animation: notifIn 250ms ease forwards; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.4); }
+      .notif { pointer-events: auto; min-width: 220px; max-width: 420px; padding: 14px 18px; border-radius: 14px; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-8px); animation: notifIn 250ms ease forwards; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
       .notif .icon { font-weight: 700; width: 20px; text-align: center; }
-      .notif.success { background: rgba(52, 199, 89, 0.85); backdrop-filter: blur(12px); }
-      .notif.error { background: rgba(255, 59, 48, 0.85); backdrop-filter: blur(12px); }
-      .notif.info { background: rgba(0, 122, 255, 0.85); backdrop-filter: blur(12px); }
+      .notif.success { background: #34c759; }
+      .notif.error { background: #ff3b30; }
+      .notif.info { background: #007aff; }
       .notif.fade-out { animation: notifOut 350ms ease forwards; }
       @keyframes notifIn { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
       @keyframes notifOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-8px) scale(0.98); } }
       
       /* --- MODAL / POPUP --- */
-      .modal, .popup-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.3); backdrop-filter: blur(8px); }
+      .modal, .popup-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.3); backdrop-filter: blur(4px); }
       .modal-content, .popup-content { 
-        background-color: rgba(255, 255, 255, 0.85); 
-        backdrop-filter: blur(30px) saturate(180%);
-        -webkit-backdrop-filter: blur(30px) saturate(180%);
+        background-color: #e4ebf5; 
         margin: 5% auto; 
         padding: 24px; 
-        border: 1px solid rgba(255, 255, 255, 0.7); 
         width: 85%; 
         max-width: 700px; 
         border-radius: 24px; 
-        box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        box-shadow: 12px 12px 25px #cbced1, -12px -12px 25px #ffffff;
         color: #0f172a;
       }
-      .modal-close { color: #8e8e93; float: right; font-size: 24px; font-weight: bold; cursor: pointer; transition: color 0.2s; }
-      .modal-close:hover, .modal-close:focus { color: #000; }
+      .modal-close { color: #64748b; float: right; font-size: 24px; font-weight: bold; cursor: pointer; transition: color 0.2s; }
+      .modal-close:hover { color: #000; }
       .popup-content { max-height: 80vh; overflow-y: auto; }
-      #inputPopupCari { 
+      #inputPopupCari, #cariRiwayat { 
         margin-bottom: 15px; 
         width: 100%; 
         padding: 12px; 
         box-sizing: border-box; 
         border-radius: 10px; 
-        border: 1px solid rgba(0,0,0,0.15); 
-        background: #ffffff; 
+        border: none; 
+        background: #e4ebf5; 
         font-size: 15px;
         color: #000;
+        box-shadow: inset 4px 4px 8px #cbced1, inset -4px -4px 8px #ffffff;
+        outline: none;
       }
       .form-group { margin-bottom: 12px; }
       .form-group label { display: block; margin-bottom: 5px; font-weight: 700; color: #1e293b; }
-      .hidden { display: none; }
       .pagination-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 15px; }
-      .pagination-container button:disabled { background: rgba(0,0,0,0.1); color: #a1a1aa; cursor: not-allowed; box-shadow: none; }
+      .pagination-container button:disabled { opacity: 0.5; box-shadow: none; cursor: not-allowed; }
     </style>
   </head>
   <body>
@@ -374,17 +386,25 @@
             <button
               id="btnSelesaiCetak"
               class="button-utama-full"
-              style="background: #2196f3;"
+              style="color: #007aff;"
             >
               BAYAR
             </button>
-            <button id="bukaPencarianBtn" class="button-utama-full">
+            <button id="bukaPencarianBtn" class="button-utama-full" style="color: #166534;">
               CARI
             </button>
           </div>
         </div>
 
-        <div id="uangRekomendasi" class="uang-rekomendasi" style="display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap;"></div>
+        <!-- REKOMENDASI UANG PEMBELI & TOMBOL MENU DI SEBELAH KIRI -->
+        <div class="panel-bawah-container">
+          <div class="menu-samping-kiri">
+            <button id="btnRiwayat" onclick="toggleRiwayat()">RIWAYAT</button>
+            <button id="btnSinkron" onclick="sinkronDariFirebase()">SINKRON</button>
+            <button id="btnPengaturan" onclick="bukaPengaturan()">PENGATURAN</button>
+          </div>
+          <div id="uangRekomendasi" class="uang-rekomendasi" style="display:flex; gap:6px; flex-wrap:wrap; flex:1;"></div>
+        </div>
 
         <table id="tabelKeranjang">
           <thead>
@@ -400,27 +420,7 @@
           <tbody></tbody>
         </table>
       </div>
-      <hr />
-
-      <!-- MENU NAVIGASI (Tombol Produk & Backup/Restore sudah dihapus) -->
-      <div class="manajemen">
-        <button id="btnRiwayat" onclick="toggleRiwayat()">RIWAYAT</button>
-        <button
-          id="btnSinkron"
-          onclick="sinkronDariFirebase()"
-          style="background: #2196f3;"
-        >
-          SINKRON
-        </button>
-        <button
-          id="btnPengaturan"
-          class="button-sekunder"
-          onclick="bukaPengaturan()"
-          style="background: #9c27b0;"
-        >
-          PENGATURAN
-        </button>
-      </div>
+      <hr style="border: none; height: 1px; background: #cbced1; margin: 20px 0;" />
 
       <div class="riwayat">
         <div id="riwayatBox" style="display:none; margin-top:10px;">
@@ -463,7 +463,7 @@
         </div>
       </div>
 
-      <!-- MODAL PENGATURAN (Tombol Simpan ke Firebase & Hapus Semua Riwayat sudah dihapus) -->
+      <!-- MODAL PENGATURAN -->
       <div id="modalPengaturan" class="modal">
         <div class="modal-content">
           <span class="modal-close" onclick="tutupPengaturan()">&times;</span>
@@ -473,7 +473,7 @@
             <label for="ukuranKertas">Ukuran Kertas Printer (RawBT)</label>
             <select
               id="ukuranKertas"
-              style="width: 100%; padding: 8px; font-size: 16px;"
+              style="width: 100%; padding: 10px; font-size: 15px; border-radius: 10px; border: none; background: #e4ebf5; box-shadow: inset 3px 3px 6px #cbced1, inset -3px -3px 6px #ffffff; outline: none;"
               onchange="simpanPengaturanKertas()"
             >
               <option value="58">58mm (Kecil)</option>
@@ -487,17 +487,17 @@
               type="text" 
               id="inputKodeAkses" 
               placeholder="Contoh: KODE12345" 
-              style="width: 100%; padding: 10px; font-size: 15px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;"
+              style="width: 100%; padding: 12px; font-size: 15px; border-radius: 10px; border: none; background: #e4ebf5; box-sizing: border-box; box-shadow: inset 4px 4px 8px #cbced1, inset -4px -4px 8px #ffffff; outline: none;"
               oninput="simpanKodeAkses()"
             />
           </div>
 
-          <hr style="margin: 20px 0;" />
+          <hr style="border:none; height:1px; background:#cbced1; margin: 20px 0;" />
 
           <button
             class="button-sekunder"
             onclick="prosesLogout()"
-            style="width: 100%; padding: 12px; font-size: 16px; background:#607d8b;"
+            style="width: 100%; padding: 12px; font-size: 16px; color: #ff3b30;"
           >
             🚪 Keluar (Logout)
           </button>
@@ -515,12 +515,7 @@
       import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
 
       const firebaseConfig = {
-        apiKey: "AIzaSyDsz5Y-7PsulS71Z_TiPWbBW3qiMkYFI1g",
-    authDomain: "wpashopgrosir-45a9d.firebaseapp.com",
-    projectId: "wpashopgrosir-45a9d",
-    storageBucket: "wpashopgrosir-45a9d.firebasestorage.app",
-    messagingSenderId: "978499317395",
-    appId: "1:978499317395:web:91fccc4e5193022f29a766"
+        // Masukkan konfigurasi Firebase Anda di sini
       };
 
       const app = initializeApp(firebaseConfig);
@@ -727,7 +722,7 @@
           const box = document.getElementById("riwayatBox"), btn = document.getElementById("btnRiwayat"); 
           if (!box || !btn) return;
           if (box.style.display === "none") { box.style.display = "block"; btn.textContent = "Tutup Riwayat"; } 
-          else { box.style.display = "none"; btn.textContent = "Riwayat Transaksi"; } 
+          else { box.style.display = "none"; btn.textContent = "Riwayat"; } 
       }
       
       const bulkKeys = [ {key:"karton", label:"Karton", badge:"badge-karton"}, {key:"slop", label:"Slop", badge:"badge-slop"}, {key:"pak", label:"Pak", badge:"badge-pak"}, {key:"sak", label:"Sak", badge:"badge-sak"}, {key:"bal", label:"Bal", badge:"badge-bal"}, {key:"pcs", label:"Pcs", badge:"badge-pcs"} ];
@@ -794,7 +789,7 @@
           if (kembali >= 0) { labelEl.textContent = "Kembalian:"; kembaliEl.textContent = formatRupiah(kembali); boxEl.classList.add("lunas"); boxEl.classList.remove("kurang"); } else { const kekurangan = -kembali; labelEl.textContent = "Kekurangan:"; kembaliEl.textContent = formatRupiah(kekurangan); boxEl.classList.add("kurang"); boxEl.classList.remove("lunas"); }
       }
 
-      // === RENDER RIWAYAT (Hanya tombol Lihat) ===
+      // === RENDER RIWAYAT ===
       function renderRiwayat() {
           const cariRiwayatEl = document.getElementById('cariRiwayat');
           const filter = cariRiwayatEl ? cariRiwayatEl.value.toLowerCase() : ''; 
