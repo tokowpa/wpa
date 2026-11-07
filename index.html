@@ -400,6 +400,7 @@
           <div class="menu-samping-kiri">
             <button id="btnRiwayat" onclick="toggleRiwayat()">RIWAYAT</button>
             <button id="btnSinkron" onclick="sinkronDariFirebase()">SINKRON</button>
+            <button id="btnProduk" onclick="bukaManajemenProduk()" style="display:none; color: #007aff;">PRODUK</button>
             <button id="btnPengaturan" onclick="bukaPengaturan()">PENGATURAN</button>
           </div>
           <div id="uangRekomendasi" class="uang-rekomendasi" style="display:flex; gap:6px; flex-wrap:wrap; flex:1;"></div>
@@ -462,7 +463,7 @@
         </div>
       </div>
 
-      <!-- MODAL PENGATURAN (DENGAN SANDI & TOGGLE TOMBOL) -->
+      <!-- MODAL PENGATURAN -->
       <div id="modalPengaturan" class="modal">
         <div class="modal-content">
           <span class="modal-close" onclick="tutupPengaturan()">&times;</span>
@@ -506,6 +507,13 @@
           
           <h3>Tampilkan / Sembunyikan Tombol</h3>
           
+          <div class="form-group" style="margin-top: 10px;">
+            <label style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+              <span>Tombol Produk (Manajemen)</span>
+              <input type="checkbox" id="toggleTombolProduk" onchange="simpanToggle('showTombolProduk', this.checked)" style="transform: scale(1.3); cursor:pointer;" />
+            </label>
+          </div>
+
           <div class="form-group" style="margin-top: 10px;">
             <label style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
               <span>Tombol Edit di Riwayat</span>
@@ -565,6 +573,15 @@
             <br>
             <button class="button-hapus" onclick="restoreProduk()">Restore dari File</button>
           </div>
+        </div>
+      </div>
+
+      <!-- MODAL MANAJEMEN PRODUK (Opsional / Placeholder jika diperlukan) -->
+      <div id="modalProduk" class="modal">
+        <div class="modal-content">
+          <span class="modal-close" onclick="tutupManajemenProduk()">&times;</span>
+          <h2>Manajemen Produk</h2>
+          <p>Fitur kelola/tambah produk aktif.</p>
         </div>
       </div>
 
@@ -733,9 +750,19 @@
       bukaPencarianBtn.addEventListener('click', bukaPopupCari);
       window.addEventListener('click', (event) => { if (event.target == popupCari) tutupPopupCari(); });
 
+      // === MANAJEMEN PRODUK MODAL ===
+      function bukaManajemenProduk() {
+          const m = document.getElementById('modalProduk');
+          if(m) m.style.display = "block";
+      }
+      function tutupManajemenProduk() {
+          const m = document.getElementById('modalProduk');
+          if(m) m.style.display = "none";
+      }
+
       // === PENGATURAN, SANDI, TOGGLE & SINKRON ===
       function bukaPengaturan() {
-          const sandiTersimpan = localStorage.getItem('sandiPengaturan') || '1234'; // Sandi default: 1234
+          const sandiTersimpan = localStorage.getItem('sandiPengaturan') || '1234';
           const inputSandi = prompt("Masukkan Sandi Pengaturan:");
           
           if (inputSandi === null) return;
@@ -773,17 +800,23 @@
       }
 
       function terapkanTampilanToggle() {
+          const showProduk = localStorage.getItem('showTombolProduk') === 'true';
           const showEdit = localStorage.getItem('showEditRiwayat') === 'true';
           const showBackup = localStorage.getItem('showBackupRestore') === 'true';
           const showHapus = localStorage.getItem('showHapusRiwayat') === 'true';
 
+          const chkProduk = document.getElementById('toggleTombolProduk');
           const chkEdit = document.getElementById('toggleEditRiwayat');
           const chkBackup = document.getElementById('toggleBackupRestore');
           const chkHapus = document.getElementById('toggleHapusRiwayat');
 
+          if(chkProduk) chkProduk.checked = showProduk;
           if(chkEdit) chkEdit.checked = showEdit;
           if(chkBackup) chkBackup.checked = showBackup;
           if(chkHapus) chkHapus.checked = showHapus;
+
+          const btnProduk = document.getElementById('btnProduk');
+          if(btnProduk) btnProduk.style.display = showProduk ? 'inline-block' : 'none';
 
           const boxBackup = document.getElementById('containerTombolBackup');
           const boxHapus = document.getElementById('containerTombolHapusRiwayat');
