@@ -462,7 +462,7 @@
         </div>
       </div>
 
-      <!-- MODAL PENGATURAN -->
+      <!-- MODAL PENGATURAN (DENGAN SANDI & TOGGLE TOMBOL) -->
       <div id="modalPengaturan" class="modal">
         <div class="modal-content">
           <span class="modal-close" onclick="tutupPengaturan()">&times;</span>
@@ -489,6 +489,17 @@
               style="width: 100%; padding: 12px; font-size: 15px; border-radius: 10px; border: none; background: #e4ebf5; box-sizing: border-box; box-shadow: inset 4px 4px 8px #cbced1, inset -4px -4px 8px #ffffff; outline: none;"
               oninput="simpanKodeAkses()"
             />
+          </div>
+
+          <div class="form-group" style="margin-top: 15px;">
+            <label for="inputSandiBaru">Ubah Sandi Pengaturan</label>
+            <input 
+              type="password" 
+              id="inputSandiBaru" 
+              placeholder="Masukkan sandi baru..." 
+              style="width: 100%; padding: 12px; font-size: 15px; border-radius: 10px; border: none; background: #e4ebf5; box-sizing: border-box; box-shadow: inset 4px 4px 8px #cbced1, inset -4px -4px 8px #ffffff; outline: none;"
+            />
+            <button onclick="simpanSandiBaru()" style="width: 100%; margin-top: 8px; padding: 10px; font-size: 14px; color: #166534;">Simpan Sandi Baru</button>
           </div>
 
           <hr style="border:none; height:1px; background:#cbced1; margin: 20px 0;" />
@@ -537,7 +548,7 @@
         </div>
       </div>
 
-      <!-- MODAL BACKUP & RESTORE (Dapat Ditampilkan/Disembunyikan) -->
+      <!-- MODAL BACKUP & RESTORE -->
       <div id="modalBackup" class="modal">
         <div class="modal-content">
           <span class="modal-close" onclick="closeModalBackup()">&times;</span>
@@ -722,13 +733,12 @@
       bukaPencarianBtn.addEventListener('click', bukaPopupCari);
       window.addEventListener('click', (event) => { if (event.target == popupCari) tutupPopupCari(); });
 
-      // === PENGATURAN, TOGGLE & SINKRON ===
-
+      // === PENGATURAN, SANDI, TOGGLE & SINKRON ===
       function bukaPengaturan() {
           const sandiTersimpan = localStorage.getItem('sandiPengaturan') || '1234'; // Sandi default: 1234
           const inputSandi = prompt("Masukkan Sandi Pengaturan:");
           
-          if (inputSandi === null) return; // Jika tombol Cancel ditekan
+          if (inputSandi === null) return;
           
           if (inputSandi === sandiTersimpan) {
               const m = document.getElementById('modalPengaturan'); 
@@ -738,25 +748,23 @@
               showNotif("Sandi salah! Akses ditolak.", "error");
           }
       }
+
+      function simpanSandiBaru() {
+          const sandiBaru = document.getElementById('inputSandiBaru').value.trim();
+          if (sandiBaru.length < 3) {
+              return showNotif("Sandi minimal 3 karakter!", "error");
+          }
+          localStorage.setItem('sandiPengaturan', sandiBaru);
+          document.getElementById('inputSandiBaru').value = "";
+          showNotif("Sandi pengaturan berhasil diperbarui!", "success");
+      }
+
       function tutupPengaturan() { const m = document.getElementById('modalPengaturan'); if(m) m.style.display = "none"; }
       
       function simpanKodeAkses() {
           const kode = document.getElementById('inputKodeAkses').value;
           localStorage.setItem('kodeAksesNota', kode);
       }
-      
-      <hr style="border:none; height:1px; background:#cbced1; margin: 20px 0;" />
-          
-          <div class="form-group" style="margin-top: 15px;">
-            <label for="inputSandiBaru">Ubah Sandi Pengaturan</label>
-            <input 
-              type="password" 
-              id="inputSandiBaru" 
-              placeholder="Masukkan sandi baru..." 
-              style="width: 100%; padding: 12px; font-size: 15px; border-radius: 10px; border: none; background: #e4ebf5; box-sizing: border-box; box-shadow: inset 4px 4px 8px #cbced1, inset -4px -4px 8px #ffffff; outline: none;"
-            />
-            <button onclick="simpanSandiBaru()" style="width: 100%; margin-top: 8px; padding: 10px; font-size: 14px; color: #166534;">Simpan Sandi Baru</button>
-          </div>
 
       function simpanToggle(key, isChecked) {
           localStorage.setItem(key, isChecked ? 'true' : 'false');
@@ -800,16 +808,6 @@
           const val = document.getElementById('ukuranKertas').value;
           localStorage.setItem('printerSize', val);
           showNotif("Ukuran Kertas disimpan: " + val + "mm", "success", 1500);
-      }
-      
-      function simpanSandiBaru() {
-          const sandiBaru = document.getElementById('inputSandiBaru').value.trim();
-          if (sandiBaru.length < 3) {
-              return showNotif("Sandi minimal 3 karakter!", "error");
-          }
-          localStorage.setItem('sandiPengaturan', sandiBaru);
-          document.getElementById('inputSandiBaru').value = "";
-          showNotif("Sandi pengaturan berhasil diperbarui!", "success");
       }
 
       // === BACKUP & RESTORE ===
@@ -961,7 +959,7 @@
           if (kembali >= 0) { labelEl.textContent = "Kembalian:"; kembaliEl.textContent = formatRupiah(kembali); boxEl.classList.add("lunas"); boxEl.classList.remove("kurang"); } else { const kekurangan = -kembali; labelEl.textContent = "Kekurangan:"; kembaliEl.textContent = formatRupiah(kekurangan); boxEl.classList.add("kurang"); boxEl.classList.remove("lunas"); }
       }
 
-      // === RENDER RIWAYAT (Dengan Cek Tombol Edit Aktif/Tidak) ===
+      // === RENDER RIWAYAT ===
       function renderRiwayat() {
           const cariRiwayatEl = document.getElementById('cariRiwayat');
           const filter = cariRiwayatEl ? cariRiwayatEl.value.toLowerCase() : ''; 
