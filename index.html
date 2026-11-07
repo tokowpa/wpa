@@ -295,7 +295,7 @@
       .modal-close { color: #64748b; float: right; font-size: 24px; font-weight: bold; cursor: pointer; transition: color 0.2s; }
       .modal-close:hover { color: #000; }
       .popup-content { max-height: 80vh; overflow-y: auto; }
-      #inputPopupCari, #cariRiwayat { 
+      #inputPopupCari, #cariRiwayat, #cariManajemenProduk { 
         margin-bottom: 15px; 
         width: 100%; 
         padding: 12px; 
@@ -310,6 +310,7 @@
       }
       .form-group { margin-bottom: 12px; }
       .form-group label { display: block; margin-bottom: 5px; font-weight: 700; color: #1e293b; }
+      .form-group input { width: 100%; padding: 10px; border-radius: 8px; border: none; background: #e4ebf5; box-shadow: inset 3px 3px 6px #cbced1, inset -3px -3px 6px #ffffff; outline: none; box-sizing: border-box; }
       .pagination-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 15px; }
       .pagination-container button:disabled { opacity: 0.5; box-shadow: none; cursor: not-allowed; }
     </style>
@@ -530,6 +531,13 @@
 
           <div class="form-group" style="margin-top: 10px;">
             <label style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
+              <span>Tombol Unggah Data ke Firebase</span>
+              <input type="checkbox" id="toggleUnggahFirebase" onchange="simpanToggle('showUnggahFirebase', this.checked)" style="transform: scale(1.3); cursor:pointer;" />
+            </label>
+          </div>
+
+          <div class="form-group" style="margin-top: 10px;">
+            <label style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;">
               <span>Tombol Hapus Semua Riwayat (Lunas)</span>
               <input type="checkbox" id="toggleHapusRiwayat" onchange="simpanToggle('showHapusRiwayat', this.checked)" style="transform: scale(1.3); cursor:pointer;" />
             </label>
@@ -538,6 +546,10 @@
           <!-- TOMBOL TAMBAHAN BERDASARKAN TOGGLE -->
           <div id="containerTombolBackup" style="display:none; margin-top: 15px;">
             <button onclick="openModalBackup()" style="width: 100%; padding: 12px; font-size: 15px; color: #007aff;">📦 Buka Menu Backup & Restore</button>
+          </div>
+
+          <div id="containerTombolUnggah" style="display:none; margin-top: 10px;">
+            <button onclick="unggahSemuaProdukKeFirebase()" style="width: 100%; padding: 12px; font-size: 15px; color: #166534;">☁️ Unggah Semua Produk ke Firebase</button>
           </div>
 
           <div id="containerTombolHapusRiwayat" style="display:none; margin-top: 10px;">
@@ -576,12 +588,58 @@
         </div>
       </div>
 
-      <!-- MODAL MANAJEMEN PRODUK (Opsional / Placeholder jika diperlukan) -->
+      <!-- MODAL MANAJEMEN PRODUK (DENGAN PENCARIAN, EDIT, & HAPUS) -->
       <div id="modalProduk" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 800px;">
           <span class="modal-close" onclick="tutupManajemenProduk()">&times;</span>
           <h2>Manajemen Produk</h2>
-          <p>Fitur kelola/tambah produk aktif.</p>
+          <input
+            type="text"
+            id="cariManajemenProduk"
+            placeholder="Cari produk berdasarkan nama atau barcode..."
+            oninput="renderManajemenProduk()"
+          />
+          <div style="max-height: 55vh; overflow-y: auto;">
+            <table id="tabelManajemenProduk">
+              <thead>
+                <tr>
+                  <th>Nama Produk</th>
+                  <th>Barcode / Harga</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div style="margin-top: 15px; display: flex; gap: 10px;">
+            <button onclick="bukaFormProduk()" style="color: #007aff; flex: 1; padding: 12px;">+ Tambah Produk Baru</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL FORM TAMBAH / EDIT PRODUK -->
+      <div id="modalFormProduk" class="modal">
+        <div class="modal-content">
+          <span class="modal-close" onclick="tutupFormProduk()">&times;</span>
+          <h2 id="judulFormProduk">Tambah Produk</h2>
+          <input type="hidden" id="editProdukId" />
+          <div class="form-group">
+            <label>Nama Produk</label>
+            <input type="text" id="inputNamaProduk" placeholder="Contoh: Minyak Goreng" />
+          </div>
+          <div class="form-group">
+            <label>Barcode Utama</label>
+            <input type="text" id="inputBarcodeProduk" placeholder="Scan atau ketik barcode" />
+          </div>
+          <div class="form-group">
+            <label>Harga Pcs (Ecer)</label>
+            <input type="number" id="inputHargaPcs" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label>Harga Grosir / Karton</label>
+            <input type="number" id="inputHargaKarton" placeholder="0" />
+          </div>
+          <button onclick="simpanDataProduk()" style="width: 100%; margin-top: 15px; padding: 12px; color: #166534; font-weight: bold;">Simpan Produk</button>
         </div>
       </div>
 
@@ -597,7 +655,7 @@
       import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
 
       const firebaseConfig = {
-       apiKey: "AIzaSyDsz5Y-7PsulS71Z_TiPWbBW3qiMkYFI1g",
+        apiKey: "AIzaSyDsz5Y-7PsulS71Z_TiPWbBW3qiMkYFI1g",
     authDomain: "wpashopgrosir-45a9d.firebaseapp.com",
     projectId: "wpashopgrosir-45a9d",
     storageBucket: "wpashopgrosir-45a9d.firebasestorage.app",
@@ -740,7 +798,7 @@
           } catch (error) { console.error(error); }
       }
 
-      // === POPUP PENCARIAN ===
+      // === POPUP PENCARIAN KASIR ===
       const popupCari = document.getElementById('popupCari');
       const bukaPencarianBtn = document.getElementById('bukaPencarianBtn');
       const inputPopupCari = document.getElementById('inputPopupCari');
@@ -750,14 +808,142 @@
       bukaPencarianBtn.addEventListener('click', bukaPopupCari);
       window.addEventListener('click', (event) => { if (event.target == popupCari) tutupPopupCari(); });
 
-      // === MANAJEMEN PRODUK MODAL ===
+      // === MANAJEMEN PRODUK (PENCARIAN, EDIT, HAPUS) ===
       function bukaManajemenProduk() {
           const m = document.getElementById('modalProduk');
           if(m) m.style.display = "block";
+          renderManajemenProduk();
       }
       function tutupManajemenProduk() {
           const m = document.getElementById('modalProduk');
           if(m) m.style.display = "none";
+      }
+
+      function renderManajemenProduk() {
+          const query = (document.getElementById('cariManajemenProduk').value || "").toLowerCase();
+          const tbody = document.querySelector("#tabelManajemenProduk tbody");
+          if (!tbody) return;
+          tbody.innerHTML = "";
+
+          const filtered = produkDB.filter(p => 
+              p.nama.toLowerCase().includes(query) || 
+              (p.barcode && p.barcode.toLowerCase().includes(query))
+          );
+
+          if (filtered.length === 0) {
+              tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #64748b; font-style: italic;">Tidak ada produk ditemukan.</td></tr>`;
+              return;
+          }
+
+          filtered.forEach(p => {
+              const tr = document.createElement('tr');
+              let hargaEcer = p.variasi && p.variasi.length > 0 ? p.variasi[0].harga : (p.pcs || 0);
+              tr.innerHTML = `
+                  <td><b>${p.nama}</b><br><small style="color:#64748b;">Barcode: ${p.barcode || '-'}</small></td>
+                  <td>Rp ${formatRupiah(hargaEcer)}</td>
+                  <td>
+                      <button onclick="editProduk(${p.id})" style="color: #007aff;">Edit</button>
+                      <button class="button-hapus" onclick="hapusProduk(${p.id})">Hapus</button>
+                  </td>
+              `;
+              tbody.appendChild(tr);
+          });
+      }
+
+      function bukaFormProduk(produk = null) {
+          document.getElementById('modalFormProduk').style.display = 'block';
+          if (produk) {
+              document.getElementById('judulFormProduk').textContent = "Edit Produk";
+              document.getElementById('editProdukId').value = produk.id;
+              document.getElementById('inputNamaProduk').value = produk.nama;
+              document.getElementById('inputBarcodeProduk').value = produk.barcode || '';
+              document.getElementById('inputHargaPcs').value = produk.variasi && produk.variasi.length > 0 ? produk.variasi[0].harga : (produk.pcs || 0);
+              document.getElementById('inputHargaKarton').value = produk.karton || 0;
+          } else {
+              document.getElementById('judulFormProduk').textContent = "Tambah Produk Baru";
+              document.getElementById('editProdukId').value = '';
+              document.getElementById('inputNamaProduk').value = '';
+              document.getElementById('inputBarcodeProduk').value = '';
+              document.getElementById('inputHargaPcs').value = '';
+              document.getElementById('inputHargaKarton').value = '';
+          }
+      }
+
+      function tutupFormProduk() {
+          document.getElementById('modalFormProduk').style.display = 'none';
+      }
+
+      async function simpanDataProduk() {
+          const id = document.getElementById('editProdukId').value;
+          const nama = document.getElementById('inputNamaProduk').value.trim();
+          const barcode = document.getElementById('inputBarcodeProduk').value.trim();
+          const hargaPcs = parseInt(document.getElementById('inputHargaPcs').value) || 0;
+          const hargaKarton = parseInt(document.getElementById('inputHargaKarton').value) || 0;
+
+          if (!nama) return showNotif("Nama produk wajib diisi!", "error");
+
+          const dataBaru = {
+              nama,
+              barcode,
+              karton: hargaKarton,
+              pcs: hargaPcs,
+              variasi: [{ nama: "pcs", barcode: barcode, harga: hargaPcs }]
+          };
+
+          try {
+              if (id) {
+                  dataBaru.id = Number(id);
+                  await db.produk.put(dataBaru);
+                  showNotif("Produk berhasil diperbarui!", "success");
+              } else {
+                  await db.produk.add(dataBaru);
+                  showNotif("Produk berhasil ditambahkan!", "success");
+              }
+              tutupFormProduk();
+              produkDB = await db.produk.toArray();
+              renderManajemenProduk();
+          } catch (e) {
+              showNotif("Gagal menyimpan produk: " + e.message, "error");
+          }
+      }
+
+      async function editProduk(id) {
+          const produk = await db.produk.get(id);
+          if (produk) bukaFormProduk(produk);
+      }
+
+      async function hapusProduk(id) {
+          if (confirm("Anda yakin ingin menghapus produk ini?")) {
+              try {
+                  await db.produk.delete(id);
+                  produkDB = await db.produk.toArray();
+                  renderManajemenProduk();
+                  showNotif("Produk berhasil dihapus.", "info");
+              } catch (e) {
+                  showNotif("Gagal menghapus produk.", "error");
+              }
+          }
+      }
+
+      // === UNGGAH DATA KE FIREBASE ===
+      async function unggahSemuaProdukKeFirebase() {
+          if (!navigator.onLine) return showNotif("Offline! Tidak dapat terhubung ke server.", "error");
+          if (!confirm(`Unggah ${produkDB.length} produk lokal ke Firebase Firestore?`)) return;
+
+          showNotif("Mengunggah data ke Firebase...", "info", 3000);
+          try {
+              if (window.fbDB) {
+                  for (let p of produkDB) {
+                      let docRef = p.id ? window.fbDoc(window.fbDB, "produk", String(p.id)) : window.fbDoc(window.fbCol(window.fbDB, "produk"));
+                      let dataUpload = { ...p };
+                      delete dataUpload.id; // biarkan Firestore handle id atau pakai string ID
+                      await window.fbSetDoc(docRef, dataUpload, { merge: true });
+                  }
+                  showNotif("Semua produk berhasil diunggah ke Firebase!", "success", 4000);
+              }
+          } catch (e) {
+              showNotif("Gagal mengunggah ke Firebase: " + e.message, "error", 4000);
+          }
       }
 
       // === PENGATURAN, SANDI, TOGGLE & SINKRON ===
@@ -803,25 +989,30 @@
           const showProduk = localStorage.getItem('showTombolProduk') === 'true';
           const showEdit = localStorage.getItem('showEditRiwayat') === 'true';
           const showBackup = localStorage.getItem('showBackupRestore') === 'true';
+          const showUnggah = localStorage.getItem('showUnggahFirebase') === 'true';
           const showHapus = localStorage.getItem('showHapusRiwayat') === 'true';
 
           const chkProduk = document.getElementById('toggleTombolProduk');
           const chkEdit = document.getElementById('toggleEditRiwayat');
           const chkBackup = document.getElementById('toggleBackupRestore');
+          const chkUnggah = document.getElementById('toggleUnggahFirebase');
           const chkHapus = document.getElementById('toggleHapusRiwayat');
 
           if(chkProduk) chkProduk.checked = showProduk;
           if(chkEdit) chkEdit.checked = showEdit;
           if(chkBackup) chkBackup.checked = showBackup;
+          if(chkUnggah) chkUnggah.checked = showUnggah;
           if(chkHapus) chkHapus.checked = showHapus;
 
           const btnProduk = document.getElementById('btnProduk');
           if(btnProduk) btnProduk.style.display = showProduk ? 'inline-block' : 'none';
 
           const boxBackup = document.getElementById('containerTombolBackup');
+          const boxUnggah = document.getElementById('containerTombolUnggah');
           const boxHapus = document.getElementById('containerTombolHapusRiwayat');
 
           if(boxBackup) boxBackup.style.display = showBackup ? 'block' : 'none';
+          if(boxUnggah) boxUnggah.style.display = showUnggah ? 'block' : 'none';
           if(boxHapus) boxHapus.style.display = showHapus ? 'block' : 'none';
       }
 
