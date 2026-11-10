@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WPA SHOP - Google Lens Web OCR</title>
+    <title>WPA SHOP - Google Lens Web OCR & BRILink Printer</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Alpine.js CDN -->
@@ -16,8 +16,8 @@
     <div class="max-w-2xl mx-auto">
         <!-- Header -->
         <div class="mb-6 text-center">
-            <h1 class="text-2xl font-bold text-teal-700">WPA SHOP - Lens OCR</h1>
-            <p class="text-sm text-slate-500">Upload Foto / Screenshot & Salin Teks Otomatis</p>
+            <h1 class="text-2xl font-bold text-teal-700">WPA SHOP - Struk BRILink & OCR</h1>
+            <p class="text-sm text-slate-500">Scan Bukti Transfer & Cetak Rapi via RawBT</p>
         </div>
 
         <!-- Card Utama -->
@@ -25,7 +25,7 @@
             
             <!-- Area Upload Foto -->
             <div>
-                <label class="block text-xs font-bold text-slate-600 mb-2 uppercase tracking-wider">1. Pilih atau Upload Foto</label>
+                <label class="block text-xs font-bold text-slate-600 mb-2 uppercase tracking-wider">1. Pilih atau Upload Foto Bukti Transfer</label>
                 <div class="border-2 border-dashed border-teal-300 rounded-2xl p-6 text-center bg-teal-50/50 hover:bg-teal-50 transition cursor-pointer relative">
                     <input type="file" accept="image/*" @change="handleImageUpload($event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
                     <div class="flex flex-col items-center justify-center space-y-2">
@@ -45,19 +45,31 @@
             <!-- Status Loading -->
             <div x-show="isProcessing" class="text-center py-4">
                 <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-teal-600 border-t-transparent"></div>
-                <p class="text-xs text-teal-700 font-medium mt-2 animate-pulse">🔍 Sedang memindai teks dari gambar (Google Lens Style)...</p>
+                <p class="text-xs text-teal-700 font-medium mt-2 animate-pulse">🔍 Sedang memindai & mengekstrak data transaksi...</p>
             </div>
 
-            <!-- Hasil Teks & Tombol Salin -->
+            <!-- Hasil Teks & Tombol Aksi -->
             <div x-show="extractedText !== ''" class="space-y-3">
-                <div class="flex justify-between items-center">
-                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider">2. Hasil Teks Terdeteksi</label>
-                    <button @click="copyToClipboard()" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold px-4 py-2 rounded-xl transition shadow flex items-center gap-1.5">
-                        📋 <span x-text="copyBtnText">Salin Teks</span>
-                    </button>
+                <div class="flex flex-wrap justify-between items-center gap-2">
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider">2. Hasil Struk Siap Cetak</label>
+                    
+                    <div class="flex items-center gap-2">
+                        <!-- Tombol Format Ulang -->
+                        <button @click="formatAsReceipt()" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold px-3 py-2 rounded-xl transition shadow flex items-center gap-1">
+                            ✨ Format Ulang
+                        </button>
+                        <!-- Tombol Salin -->
+                        <button @click="copyToClipboard()" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold px-3 py-2 rounded-xl transition shadow flex items-center gap-1">
+                            📋 <span x-text="copyBtnText">Salin</span>
+                        </button>
+                        <!-- Tombol Cetak RawBT -->
+                        <button @click="printToRawBT()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-3 py-2 rounded-xl transition shadow flex items-center gap-1">
+                            🖨️ Cetak RawBT
+                        </button>
+                    </div>
                 </div>
                 
-                <textarea x-model="extractedText" rows="6" class="w-full text-sm p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-teal-500 outline-none font-mono text-slate-700"></textarea>
+                <textarea x-model="extractedText" rows="13" class="w-full text-xs p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-teal-500 outline-none font-mono text-slate-700 leading-relaxed"></textarea>
             </div>
 
         </div>
@@ -69,27 +81,28 @@
             return {
                 imagePreview: null,
                 extractedText: '',
+                rawOcrText: '',
                 isProcessing: false,
-                copyBtnText: 'Salin Teks',
+                copyBtnText: 'Salin',
 
                 async handleImageUpload(event) {
                     const file = event.target.files[0];
                     if (!file) return;
 
-                    // Tampilkan pratinjau gambar
                     this.imagePreview = URL.createObjectURL(file);
                     this.isProcessing = true;
                     this.extractedText = '';
 
                     try {
-                        // Proses OCR (Membaca teks dari gambar menggunakan Tesseract.js)
                         const result = await Tesseract.recognize(
                             file,
-                            'ind+eng', // Mendukung Bahasa Indonesia dan Inggris
+                            'ind+eng', 
                             { logger: m => console.log(m) }
                         );
 
-                        this.extractedText = result.data.text.trim();
+                        this.rawOcrText = result.data.text.trim();
+                        this.extractedText = this.convertToReceiptLayout(this.rawOcrText);
+
                         if (!this.extractedText) {
                             this.extractedText = '(Tidak ada teks yang berhasil dideteksi pada gambar ini)';
                         }
@@ -101,14 +114,99 @@
                     }
                 },
 
+                convertToReceiptLayout(rawText) {
+                    // 1. Ambil Nominal
+                    const amountMatch = rawText.match(/Rp\s?[\d\.]+/i);
+                    const amount = amountMatch ? amountMatch[0] : 'Rp 0';
+
+                    // 2. Ambil Waktu Transaksi
+                    const timeMatch = rawText.match(/\d{1,2}\s+[A-Za-z]+\s+\d{4},\s+\d{2}:\d{2}/);
+                    const waktu = timeMatch ? timeMatch[0] : '-';
+
+                    // 3. Ambil Nomor Referensi / Transaksi
+                    const refMatch = rawText.match(/(?:No\.?\s*Transaksi|Ref\.?)\s*[:]?\s*(\d+)/i) || rawText.match(/\d{15,}/);
+                    const noRef = refMatch ? (refMatch[1] || refMatch[0]) : '-';
+
+                    // 4. Ambil Nama Pengirim (Dari ...)
+                    let pengirimNama = '-';
+                    const fromMatch = rawText.match(/Dari\s*[@©]?\s*([^\n\r]+)/i);
+                    if (fromMatch) {
+                        pengirimNama = fromMatch[1].replace(/[@©\(\)]/g, '').trim();
+                    }
+
+                    // 5. Ambil Nama Penerima (Ke ...)
+                    let penerimaNama = '-';
+                    const toMatch = rawText.match(/Ke\s*[\d\)]*\s*([^\n\r]+)/i);
+                    if (toMatch) {
+                        penerimaNama = toMatch[1].replace(/[@©\(\)]/g, '').replace(/^[0-9]+\)\s*/, '').trim();
+                    }
+
+                    // 6. Ekstraksi Universal (Hanya membaca baris yang memiliki titik dua `:` secara ketat dalam satu baris)
+                    const bankRegex = /(SeaBank|BCA|BRI|BNI|Mandiri|BSI|Jago|Blu|Dana|OVO|GoPay)[ \t]*:[ \t]*([^\r\n]+)/ig;
+                    let banksFound = [];
+                    let match;
+                    while ((match = bankRegex.exec(rawText)) !== null) {
+                        banksFound.push({
+                            bank: match[1].trim(),
+                            rek: match[2].replace(/[@©\(\)]/g, '').trim()
+                        });
+                    }
+
+                    const pengirimRek = banksFound.length > 0 ? banksFound[0].rek : '-';
+                    const penerimaBank = banksFound.length > 1 ? banksFound[1].bank : (banksFound.length === 1 ? banksFound[0].bank : 'SeaBank');
+                    const penerimaRek = banksFound.length > 1 ? banksFound[1].rek : '-';
+
+                    // Susun format struk thermal 32 karakter (Pengirim tanpa Bank)
+                    return `        BUKTI TRANSAKSI       
+         AGEN WPA SHOP
+--------------------------------
+Waktu   : ${waktu}
+No.Ref  : ${noRef}
+--------------------------------
+PENGIRIM:
+Nama    : ${pengirimNama}
+No.Rek  : ${pengirimRek}
+--------------------------------
+PENERIMA:
+Nama    : ${penerimaNama}
+Bank    : ${penerimaBank}
+No.Rek  : ${penerimaRek}
+--------------------------------
+JUMLAH TRANSFER:
+  ${amount}
+--------------------------------
+STATUS  : BERHASIL (SUKSES)
+--------------------------------
+           Terima Kasih
+
+ `;
+
+                },
+
+                formatAsReceipt() {
+                    if (!this.rawOcrText) return;
+                    this.extractedText = this.convertToReceiptLayout(this.rawOcrText);
+                },
+
                 copyToClipboard() {
                     if (!this.extractedText) return;
                     navigator.clipboard.writeText(this.extractedText).then(() => {
-                        this.copyBtnText = '✅ Berhasil Disalin!';
+                        this.copyBtnText = 'Berhasil!';
                         setTimeout(() => {
-                            this.copyBtnText = 'Salin Teks';
+                            this.copyBtnText = 'Salin';
                         }, 2000);
                     });
+                },
+
+                printToRawBT() {
+                    if (!this.extractedText) return;
+                    try {
+                        const base64Text = btoa(unescape(encodeURIComponent(this.extractedText)));
+                        window.location.href = `rawbt:base64,${base64Text}`;
+                    } catch (error) {
+                        console.error(error);
+                        alert('Gagal membuka RawBT. Pastikan aplikasi RawBT terinstal di HP Anda.');
+                    }
                 }
             }
         }
